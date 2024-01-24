@@ -1,15 +1,21 @@
-button {
-    transform: translate(-50%, -50%); /* 使按钮的几何中心对齐目标点 */
+.btn {
+    display: flex;
     background-image: radial-gradient(ellipse at center, rgb(198, 148, 106), rgb(138, 94, 53)); /* 中心到四周的渐变 */
     border: none;
     color: #000000ff;
     font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     outline: none;
     transition: transform 0.2s ease-in-out;
 }
-button:hover {
-    transform: translate(-50%, -50%) scale(1.05);
+.btn span {
+    line-height: 1; /* 使文字垂直居中 */
+}
+.btn:hover {
+    transform: scale(1.05);
     background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
 }
 .btn_size_b {

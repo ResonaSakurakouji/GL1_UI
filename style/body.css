@@ -1,7 +1,44 @@
 body {
-    background-color: rgb(0, 0, 0);
-    margin: 0px;
-    padding: 0px;
-    position: relative; /* 创建层叠上下文 */
-
+    margin: 0;
+    padding: 0;
+    background: #000000; /* 默认背景颜色为黑色 */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
+/* body * {
+    transform: translate(-50%, -50%); 
+}   */
+body::before {
+    content: "";
+    background: url('../background/miku087.jpg') center/contain no-repeat; 
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -15; /* 确保背景图片位于body下方 */
+}
+.l_cL  {position: absolute; left : 20rem;}
+.l_cR  {position: absolute; right: 20rem;}
+.l_v01 {position: absolute; top  : 03rem;}
+.l_v02 {position: absolute; top  : 06rem;}
+.l_v03 {position: absolute; top  : 09rem;}
+.l_v04 {position: absolute; top  : 12rem;}
+.l_v05 {position: absolute; top  : 15rem;}
+.l_v06 {position: absolute; top  : 18rem;}
+.l_v07 {position: absolute; top  : 21rem;}
+.l_v08 {position: absolute; top  : 24rem;}
+.l_v09 {position: absolute; top  : 27rem;}
+.l_v10 {position: absolute; top  : 30rem;}
+.l_v11 {position: absolute; top  : 33rem;}
+.l_v12 {position: absolute; top  : 36rem;}
+.l_v13 {position: absolute; top  : 39rem;}
+.l_v14 {position: absolute; top  : 42rem;}
+.l_v15 {position: absolute; top  : 45rem;}
+.l_v16 {position: absolute; top  : 48rem;}
+.l_v17 {position: absolute; top  : 51rem;}
+.l_v18 {position: absolute; top  : 54rem;}
+.l_v19 {position: absolute; top  : 57rem;}
