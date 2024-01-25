@@ -1,47 +1,59 @@
 // const centerMake = "translate(-50%, -50%) ";
 const centerMake = " ";
-
+const orderList = ['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+let orderEles = {
+    eles : {} ,
+    clear : function () {
+        for(let i = 0; i < orderList.length; i ++) {
+            orderEles.eles[orderList[i]] = [];
+        };
+    },
+    init : function(eleList) {
+        orderEles.clear();
+        Array.from(eleList).forEach(ele =>{
+            let eleClassList = ele.classList;
+            for (let i in orderList) {
+                if (eleClassList.contains(i)) {
+                    orderEles.eles[i].push(ele);
+                    break;
+                };
+            };
+        });
+    },
+    move_out : function() {
+        for (let i of orderList) {
+            for (let ele_i of orderEles.eles[i]) {
+                if (ele_i.classList.contains('out_left')) {
+                    ele_i.style.transform = 'translateX(-100vw)';
+                } else if (ele_i.classList.contains('out_right')) {
+                    ele_i.style.transform = 'translateX(100vw)';
+                } else if (ele_i.classList.contains('out_up')) {
+                    ele_i.style.transform = 'translateY(-100vh)';
+                } else if (ele_i.classList.contains('out_down')) {
+                    ele_i.style.transform = 'translateY(100vh)';
+                }
+            };
+        };
+    },
+    move_in : function() {
+        123;        
+    }
+}
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function move_out(father) {
-    let left_Objs = document.getElementsByClassName("out_left");
-    let right_Objs = document.getElementsByClassName("out_right");
-    let up_Objs = document.getElementsByClassName("out_up");
-    let down_Objs = document.getElementsByClassName("out_down");
-    
-    // 向左移动
-    Array.from(left_Objs).forEach(obj => {
-        if (obj != father) {
-            obj.style.transform = `translateX(-100vw)`;
-        }
-    });
-
-    // 向右移动
-    Array.from(right_Objs).forEach(obj => {
-        if (obj != father) {
-            obj.style.transform = `translateX(100vw)`;
-        }
-    });
-
-    // 向上移动
-    Array.from(up_Objs).forEach(obj => {
-        if (obj != father) {
-            obj.style.transform = `translateY(-100vh)`;
-        }
-    });
-
-    // 向下移动
-    Array.from(down_Objs).forEach(obj => {
-        if (obj != father) {
-            obj.style.transform = `translateY(100vh)`;
-        }
-    });
+function move_out0(bClickedEle) {
+    let bClickedEleBros = Array.from(bClickedEle.parentElement.children).filter(child => child !== bClickedEle);
+    console.log(bClickedEle.length);
+    // 所有操作顺序元素归类
+    orderEles.init(bClickedEleBros);
+    orderEles.move_out();
 };
 
 function move_LT() {
-    move_out(this);
+    console.log(this);
+    move_out0(this);
 
     // 获取当前元素的位置
     var rect = this.getBoundingClientRect();
@@ -54,8 +66,8 @@ function move_LT() {
     this.style.transform = `translate(${translateX}px, ${translateY}px)`; // 将元素移动到左上角
 };
 
-async function setOnclick(className, func) {
-    let eles = document.getElementsByClassName(className);
+function setSonsOnclick(idName, func) {
+    let eles = document.getElementById(idName).children;
     for (let i = 0; i < eles.length; i++) {
         eles[i].addEventListener('click', function() {
             func.bind(eles[i])();
@@ -64,5 +76,5 @@ async function setOnclick(className, func) {
 };
 
 window.onload = function() {
-    setOnclick('mainMenu', move_LT);
+    setSonsOnclick('mainMenu', move_LT);
 };

@@ -21,8 +21,8 @@ body::before {
     left: 0;
     z-index: -15; /* 确保背景图片位于body下方 */
 }
-.l_cL  {position: absolute; left : 20rem;}
-.l_cR  {position: absolute; right: 20rem;}
+.l_cL  {position: absolute; left : 25rem;}
+.l_cR  {position: absolute; right: 25rem;}
 .l_v01 {position: absolute; top  : 03rem;}
 .l_v02 {position: absolute; top  : 06rem;}
 .l_v03 {position: absolute; top  : 09rem;}

@@ -9,13 +9,12 @@
     align-items: center;
     cursor: pointer;
     outline: none;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s ease-in-out;
 }
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
 }
 .btn:hover {
-    transform: scale(1.05);
     background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
 }
 .btn_size_b {
