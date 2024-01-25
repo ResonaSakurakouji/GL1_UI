@@ -1,5 +1,4 @@
-// const centerMake = "translate(-50%, -50%) ";
-const centerMake = " ";
+let noClick = false;
 const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let orderEles = {
     eles : {} ,
@@ -20,82 +19,114 @@ let orderEles = {
             };
         });
     },
-    move_out : async function() {
+    move_out : async function(vhw_x) {
+        noClick = true;
+        let exed = false;
         for (let i of orderList) {
             for (let ele_i of orderEles.eles[i]) {
                 if (ele_i.classList.contains('out_left')) {
-                    ele_i.style.transform = 'translateX(-100vw)';
+                    exed = true;
+                    ele_i.style.transform = `translateX(-${vhw_x}vw)`;
                 } else if (ele_i.classList.contains('out_right')) {
-                    ele_i.style.transform = 'translateX(100vw)';
+                    exed = true;
+                    ele_i.style.transform = `translateX(${vhw_x}vw)`;
                 } else if (ele_i.classList.contains('out_up')) {
-                    ele_i.style.transform = 'translateY(-100vh)';
+                    exed = true;
+                    ele_i.style.transform = `translateY(-${vhw_x}vh)`;
                 } else if (ele_i.classList.contains('out_down')) {
-                    ele_i.style.transform = 'translateY(100vh)';
+                    exed = true;
+                    ele_i.style.transform = `translateY(${vhw_x}vh)`;
                 }
             };
-            await sleep(128);
+            if (exed === true) {
+                await sleepAnimationFrame(96);
+            }
+            exed = false;
         };
     },
     move_in : async function() {
+        noClick = true;
+        let exed = false;
         for (let i of orderList) {
             for (let ele_i of orderEles.eles[i]) {
                 if (ele_i.classList.contains('out_left')) {
+                    exed = true;
                     ele_i.style.transform = 'translateX(0vw)';
                 } else if (ele_i.classList.contains('out_right')) {
+                    exed = true;
                     ele_i.style.transform = 'translateX(0vw)';
                 } else if (ele_i.classList.contains('out_up')) {
+                    exed = true;
                     ele_i.style.transform = 'translateY(0vh)';
                 } else if (ele_i.classList.contains('out_down')) {
+                    exed = true;
                     ele_i.style.transform = 'translateY(0vh)';
                 }
             };
-            await sleep(128);
-        };    
+            if (exed === true) {
+                await sleepAnimationFrame(96);
+            }
+            exed = false;
+        };
     }
-}
+};
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function move_LT() { 
-    let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
-    let bClickedEleAndBros = Array.from(this.parentElement.children);
-    // 所有操作顺序元素归类
-    orderEles.init(bClickedEleBros);
-    orderEles.move_out();
-    setSonsOnclick(this.parentElement.id, move_Bk)
-
+};
+function sleepAnimationFrame(ms) {
+    return new Promise(resolve => {
+        const start = performance.now();
+        function animate(time) {
+            const elapsed = time - start;
+            if (elapsed >= ms) {
+                resolve();
+            } else {
+                requestAnimationFrame(animate);
+            }
+        }
+        requestAnimationFrame(animate);
+    });
+};
+;
+async function move_LT() { 
+    if (noClick === true) {return};
+    setSonsOnclick(this.parentElement.id, doNothing);
     // 获取当前元素的位置
-    var rect = this.getBoundingClientRect();
-    var currentX = rect.left + window.scrollX;
-    var currentY = rect.top + window.scrollY;
-
+    let rect = this.getBoundingClientRect();
+    let currentX = rect.left + window.scrollX;
+    let currentY = rect.top + window.scrollY;
     // 计算需要移动的距离
-    var translateX = -currentX;
-    var translateY = -currentY;
+    let translateX = -currentX;
+    let translateY = -currentY;
     // 将元素移动到左上角
     this.style.transform = `translate(${translateX}px, ${translateY}px)`; 
-
-};
-
-function move_Bk() {
     let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
-    let bClickedEleAndBros = Array.from(this.parentElement.children);
+    orderEles.init(bClickedEleBros);
+
+    await orderEles.move_out(100).then(noClick = false);
+    setSonsOnclick(this.parentElement.id, move_Bk);
+};
+async function move_Bk() {
+    if (noClick === true) {return};
+    setSonsOnclick(this.parentElement.id, doNothing);
+    let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
     // 所有操作顺序元素归类
     orderEles.init(bClickedEleBros);
-    orderEles.move_in();
-    setSonsOnclick(this.parentElement.id, move_LT)
-}
 
+    await orderEles.move_in().then(noClick = false);
+    setSonsOnclick(this.parentElement.id, move_LT);
+};
+function doNothing() {
+    return;
+}
 function setSonsOnclick(idName, func) {
     let eles = document.getElementById(idName).children;
     for (let i = 0; i < eles.length; i++) {
         eles[i].addEventListener('click', function() {
             func.bind(eles[i])();
         });
-    }
+    };
 };
-
 window.onload = function() {
     setSonsOnclick('mainMenu', move_LT);
 };
