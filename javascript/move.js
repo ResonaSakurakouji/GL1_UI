@@ -1,26 +1,26 @@
 // const centerMake = "translate(-50%, -50%) ";
 const centerMake = " ";
-const orderList = ['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let orderEles = {
     eles : {} ,
     clear : function () {
         for(let i = 0; i < orderList.length; i ++) {
-            orderEles.eles[orderList[i]] = [];
+            this.eles[orderList[i]] = [];
         };
     },
     init : function(eleList) {
-        orderEles.clear();
+        this.clear();
         Array.from(eleList).forEach(ele =>{
             let eleClassList = ele.classList;
-            for (let i in orderList) {
+            for (let i of orderList) {
                 if (eleClassList.contains(i)) {
-                    orderEles.eles[i].push(ele);
+                    this.eles[i].push(ele);
                     break;
                 };
             };
         });
     },
-    move_out : function() {
+    move_out : async function() {
         for (let i of orderList) {
             for (let ele_i of orderEles.eles[i]) {
                 if (ele_i.classList.contains('out_left')) {
@@ -33,27 +33,37 @@ let orderEles = {
                     ele_i.style.transform = 'translateY(100vh)';
                 }
             };
+            await sleep(128);
         };
     },
-    move_in : function() {
-        123;        
+    move_in : async function() {
+        for (let i of orderList) {
+            for (let ele_i of orderEles.eles[i]) {
+                if (ele_i.classList.contains('out_left')) {
+                    ele_i.style.transform = 'translateX(0vw)';
+                } else if (ele_i.classList.contains('out_right')) {
+                    ele_i.style.transform = 'translateX(0vw)';
+                } else if (ele_i.classList.contains('out_up')) {
+                    ele_i.style.transform = 'translateY(0vh)';
+                } else if (ele_i.classList.contains('out_down')) {
+                    ele_i.style.transform = 'translateY(0vh)';
+                }
+            };
+            await sleep(128);
+        };    
     }
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function move_out0(bClickedEle) {
-    let bClickedEleBros = Array.from(bClickedEle.parentElement.children).filter(child => child !== bClickedEle);
-    console.log(bClickedEle.length);
+function move_LT() { 
+    let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+    let bClickedEleAndBros = Array.from(this.parentElement.children);
     // 所有操作顺序元素归类
     orderEles.init(bClickedEleBros);
     orderEles.move_out();
-};
-
-function move_LT() {
-    console.log(this);
-    move_out0(this);
+    setSonsOnclick(this.parentElement.id, move_Bk)
 
     // 获取当前元素的位置
     var rect = this.getBoundingClientRect();
@@ -63,8 +73,19 @@ function move_LT() {
     // 计算需要移动的距离
     var translateX = -currentX;
     var translateY = -currentY;
-    this.style.transform = `translate(${translateX}px, ${translateY}px)`; // 将元素移动到左上角
+    // 将元素移动到左上角
+    this.style.transform = `translate(${translateX}px, ${translateY}px)`; 
+
 };
+
+function move_Bk() {
+    let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+    let bClickedEleAndBros = Array.from(this.parentElement.children);
+    // 所有操作顺序元素归类
+    orderEles.init(bClickedEleBros);
+    orderEles.move_in();
+    setSonsOnclick(this.parentElement.id, move_LT)
+}
 
 function setSonsOnclick(idName, func) {
     let eles = document.getElementById(idName).children;
