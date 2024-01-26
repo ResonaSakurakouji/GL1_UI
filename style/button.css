@@ -9,9 +9,19 @@
     align-items: center;
     cursor: pointer;
     outline: none;
+    z-index: 63;
 }
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
+}
+#btn_LT_b {
+    position: absolute; 
+    left: 0vw; 
+    top: 0vh; 
+    opacity: 0;
+    background-image: radial-gradient(ellipse at center, rgb(184, 171, 165), rgb(159, 152, 144));
+    pointer-events: none;
+    z-index: 62;
 }
 .btn:hover {
     background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
@@ -19,7 +29,7 @@
 .btn_size_b {
     width: 24vw;
     height: 8vh;
-    font-size: 6vh;
+    font-size: min(6vh, 3vw);
 }
 .btn_lct_center {
     position: fixed;

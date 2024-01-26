@@ -1,4 +1,3 @@
-var noClick = false;
 var oldClickHandler = [];
 const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let OrderEles = {
@@ -205,7 +204,8 @@ let Move = {
     
         setOnclick.byEle(this, Move.Bk);
         await OrderEles.move_out();
-        Change.wood2gray(this, 128);
+        await Change.btnB2gray(this, 128);
+        Change.topBarGrow(256);
         this.style.pointerEvents = 'auto';
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
@@ -222,7 +222,8 @@ let Move = {
             currentTslYv = this.tslYv;
         };
         
-        await Change.gray2original(this, 128);
+        await Change.topBarShorten(256);
+        await Change.btnB2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
@@ -234,38 +235,39 @@ let Move = {
     doNothing : function() {return;},
 };
 let Change = {
-    wood2gray : async function(ele, ms) {
+    btnB2gray : async function(ele, ms) {
+        let eleLT = document.getElementById('btn_LT_b');
+        eleLT.innerHTML = ele.innerHTML;
+        eleLT.style.transition =  `opacity ${ms}ms ease-in-out`;
         ele.OriginalTransition = window.getComputedStyle(ele).transition;
-        ele.OriginalWidth = window.getComputedStyle(ele).width;
-        ele.OriginalFontSize = window.getComputedStyle(ele).fontSize;
-        ele.OriginalBackgroundImage = window.getComputedStyle(ele).backgroundImage;
-        ele.style.transition = ele.OriginalTransition + `, width ${ms}ms, font-size ${ms}ms, opacity ${ms}ms`;
-        ele.style.width = '0';
-        ele.style.fontSize = '0';
+        ele.style.transition = ele.OriginalTransition + `, opacity ${ms}ms ease-in-out`;
+        eleLT.style.opacity = '1';
         ele.style.opacity = '0';
-        await sleep(ms);
-        ele.style.backgroundImage = "radial-gradient(ellipse at center, rgb(184, 171, 165), rgb(159, 152, 144))"
-        ele.style.width = ele.OriginalWidth;
-        ele.style.fontSize = ele.OriginalFontSize;
-        ele.style.opacity = '1';
         await sleep(ms);
         ele.style.transition = ele.OriginalTransition;
     },
-    gray2original : async function(ele, ms) {
+    btnB2original : async function(ele, ms) {
+        let eleLT = document.getElementById('btn_LT_b');
+        eleLT.style.transition =  `opacity ${ms}ms ease-in-out`;
         ele.OriginalTransition = window.getComputedStyle(ele).transition;
-        ele.OriginalWidth = window.getComputedStyle(ele).width;
-        ele.OriginalFontSize = window.getComputedStyle(ele).fontSize;
-        ele.style.transition = ele.OriginalTransition + `, width ${ms}ms, font-size ${ms}ms, opacity ${ms}ms`;
-        ele.style.width = '0';
-        ele.style.fontSize = '0';
-        ele.style.opacity = '0';
-        await sleep(ms);
-        ele.style.backgroundImage = ele.OriginalBackgroundImage
-        ele.style.width = ele.OriginalWidth;
-        ele.style.fontSize = ele.OriginalFontSize;
+        ele.style.transition = ele.OriginalTransition + `, opacity ${ms}ms ease-in-out`;
+        eleLT.style.opacity = '0';
         ele.style.opacity = '1';
         await sleep(ms);
+        eleLT.innerHTML = '';
         ele.style.transition = ele.OriginalTransition;
+    },
+    topBarGrow : async function(ms) {
+        let ele = document.getElementById('t0Bar');
+        ele.style.transition = `width ${ms}ms ease-out`;
+        ele.style.width = '100vw';
+        await sleep(ms);
+    },
+    topBarShorten : async function(ms) {
+        let ele = document.getElementById('t0Bar');
+        ele.style.transition = `width ${ms}ms ease-in`;
+        ele.style.width = '0vw';
+        await sleep(ms);
     },
 }
 let Call = {
