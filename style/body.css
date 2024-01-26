@@ -11,6 +11,7 @@ body {
 body::before {
     content: "";
     background: url('../background/miku087.jpg') center/contain no-repeat; 
+    /* background: url('https://www.logo11.cn/uploads/allimg/170526/1_170526154436_1.jpg') center/contain no-repeat; */
     position: fixed;
     top: 0;
     right: 0;
