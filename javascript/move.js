@@ -59,7 +59,7 @@ let OrderEles = {
             }
             exed = false;
         };
-        await sleep(this.sleepS * 1024);
+        await sleep(this.sleepS * 512);
     },
     move_out : async function() {
         noClick = true;
@@ -89,7 +89,7 @@ let OrderEles = {
             }
             exed = false;
         };
-        await sleep(this.sleepS * 1024);
+        await sleep(this.sleepS * 512);
     },
 };
 let TsA2B = {

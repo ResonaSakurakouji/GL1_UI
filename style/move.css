@@ -1,6 +1,6 @@
 .out_left, .out_right, .out_up, .up_down {
     margin: 0px;
-    transition: transform 300ms ease-in-out;
+    transition: transform 384ms ease-in-out;
 }
 .m1st, .m2nd, .m3rd, .m4th, .m5th, .m6th, .m7th, .m8th {
     margin: 0px;
