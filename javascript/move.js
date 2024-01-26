@@ -59,7 +59,7 @@ let OrderEles = {
             }
             exed = false;
         };
-        await sleep(this.sleepS * 512);
+        await sleep(this.sleepS * 1024);
     },
     move_out : async function() {
         noClick = true;
@@ -89,7 +89,7 @@ let OrderEles = {
             }
             exed = false;
         };
-        await sleep(this.sleepS * 512);
+        await sleep(this.sleepS * 1024);
     },
 };
 let TsA2B = {
@@ -205,6 +205,7 @@ let Move = {
     
         setOnclick.byEle(this, Move.Bk);
         await OrderEles.move_out();
+        Change.wood2gray(this, 128);
         this.style.pointerEvents = 'auto';
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
@@ -220,21 +221,57 @@ let Move = {
         if (this.tslYv !== undefined) {
             currentTslYv = this.tslYv;
         };
+        
+        await Change.gray2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
-
         setOnclick.byEle(this, Move.LT);
-        await OrderEles.move_in(100); // 运行需要花4秒
+        await OrderEles.move_in(100); 
         this.style.pointerEvents = 'auto';
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
     doNothing : function() {return;},
 };
+let Change = {
+    wood2gray : async function(ele, ms) {
+        ele.OriginalTransition = window.getComputedStyle(ele).transition;
+        ele.OriginalWidth = window.getComputedStyle(ele).width;
+        ele.OriginalFontSize = window.getComputedStyle(ele).fontSize;
+        ele.OriginalBackgroundImage = window.getComputedStyle(ele).backgroundImage;
+        ele.style.transition = ele.OriginalTransition + `, width ${ms}ms, font-size ${ms}ms, opacity ${ms}ms`;
+        ele.style.width = '0';
+        ele.style.fontSize = '0';
+        ele.style.opacity = '0';
+        await sleep(ms);
+        ele.style.backgroundImage = "radial-gradient(ellipse at center, rgb(184, 171, 165), rgb(159, 152, 144))"
+        ele.style.width = ele.OriginalWidth;
+        ele.style.fontSize = ele.OriginalFontSize;
+        ele.style.opacity = '1';
+        await sleep(ms);
+        ele.style.transition = ele.OriginalTransition;
+    },
+    gray2original : async function(ele, ms) {
+        ele.OriginalTransition = window.getComputedStyle(ele).transition;
+        ele.OriginalWidth = window.getComputedStyle(ele).width;
+        ele.OriginalFontSize = window.getComputedStyle(ele).fontSize;
+        ele.style.transition = ele.OriginalTransition + `, width ${ms}ms, font-size ${ms}ms, opacity ${ms}ms`;
+        ele.style.width = '0';
+        ele.style.fontSize = '0';
+        ele.style.opacity = '0';
+        await sleep(ms);
+        ele.style.backgroundImage = ele.OriginalBackgroundImage
+        ele.style.width = ele.OriginalWidth;
+        ele.style.fontSize = ele.OriginalFontSize;
+        ele.style.opacity = '1';
+        await sleep(ms);
+        ele.style.transition = ele.OriginalTransition;
+    },
+}
 let Call = {
     mainMenu : function() {
         // if (noClick === true) {return};
-        let mainMenuEles = document.getElementById('mainMenu').children;
+        let mainMenuEles = document.getElementById('battleMenu').children;
         // 所有操作顺序元素归类
         OrderEles.init(mainMenuEles);
 
