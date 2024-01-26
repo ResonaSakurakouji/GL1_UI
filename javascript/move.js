@@ -3,22 +3,33 @@ var oldClickHandler = [];
 const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let OrderEles = {
     eles : {} ,
+    sleepS : 0,
+    sleepMs_i : 0,
+    sleepCount : 0,
     clear : function () {
         for(let i = 0; i < orderList.length; i ++) {
             this.eles[orderList[i]] = [];
         };
+        this.sleepS = 0;
+        this.sleepCount = 0;
+        return;
     },
     init : function(eleList) {
         this.clear();
+        this.sleepS = parseFloat(window.getComputedStyle(eleList[0]).transitionDuration);
         Array.from(eleList).forEach(ele =>{
             let eleClassList = ele.classList;
             for (let i of orderList) {
                 if (eleClassList.contains(i)) {
                     this.eles[i].push(ele);
+                    if (this.eles[i].length === 1) {
+                        this.sleepCount ++;
+                    };
                     break;
                 };
             };
         });
+        this.sleepMs_i = this.sleepS / this.sleepCount * 1000;
     },
     move_in : async function(vhw_x) {
         noClick = true;
@@ -44,10 +55,11 @@ let OrderEles = {
                 }
             };
             if (exed === true) {
-                await sleep(96);
+                await sleep(this.sleepMs_i);
             }
             exed = false;
         };
+        await sleep(this.sleepS * 1024);
     },
     move_out : async function() {
         noClick = true;
@@ -73,29 +85,30 @@ let OrderEles = {
                 }
             };
             if (exed === true) {
-                await sleep(96);
+                await sleep(this.sleepMs_i);
             }
             exed = false;
         };
+        await sleep(this.sleepS * 1024);
     },
 };
 let TsA2B = {
-    vw2px: function (vwValue) {
+    vw2px : function (vwValue) {
         const vwWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         const pxValue = (vwValue * vwWidth) / 100;
         return pxValue;
     },
-    vh2px: function (vhValue) {
+    vh2px : function (vhValue) {
         const vhHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         const pxValue = (vhValue * vhHeight) / 100;
         return pxValue;
     },
-    px2vw: function (pxValue) {
+    px2vw : function (pxValue) {
         const vwWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         const vwValue = (pxValue / vwWidth) * 100;
         return vwValue;
     },
-    px2vh: function (pxValue) {
+    px2vh : function (pxValue) {
         const vhHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         const vhValue = (pxValue / vhHeight) * 100;
         return vhValue;
@@ -166,8 +179,10 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 let Move = {
-    LT : function () { 
-        // if (noClick === true) {return};
+    LT : async function () { 
+        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
+        this.style.pointerEvents = 'none';
         // 获取当前元素的位置
         let rect = this.getBoundingClientRect();
         let currentTslXv = 0;
@@ -186,14 +201,17 @@ let Move = {
         let translateY = -1* TsA2B.px2vh(currentY);
         // 将元素移动到左上角
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`; 
-        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
         OrderEles.init(bClickedEleBros);
     
-        OrderEles.move_out();
         setOnclick.byEle(this, Move.Bk);
+        await OrderEles.move_out();
+        this.style.pointerEvents = 'auto';
+        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
-    Bk : function() {
-        // if (noClick === true) {return};
+    Bk : async function() {
+        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
+        this.style.pointerEvents = 'none';
         let currentTslXv = 0;
         let currentTslYv = 0;
         if (this.tslXv !== undefined) {
@@ -203,12 +221,13 @@ let Move = {
             currentTslYv = this.tslYv;
         };
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
-        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
 
-        OrderEles.move_in(100);
         setOnclick.byEle(this, Move.LT);
+        await OrderEles.move_in(100); // 运行需要花4秒
+        this.style.pointerEvents = 'auto';
+        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
     doNothing : function() {return;},
 };

@@ -9,7 +9,6 @@
     align-items: center;
     cursor: pointer;
     outline: none;
-    transition: transform 0.1s ease-in-out;
 }
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
