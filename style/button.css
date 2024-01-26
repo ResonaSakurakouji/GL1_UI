@@ -18,9 +18,9 @@
     background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
 }
 .btn_size_b {
-    width: 25vw;
-    height: 5vw;
-    font-size: 2vw;
+    width: 24vw;
+    height: 8vh;
+    font-size: 6vh;
 }
 .btn_lct_center {
     position: fixed;

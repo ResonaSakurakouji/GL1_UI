@@ -18,24 +18,47 @@ body::before {
     left: 0;
     z-index: -15; /* 确保背景图片位于body下方 */
 }
-.l_cL  {position: absolute; left : 25rem;}
-.l_cR  {position: absolute; right: 25rem;}
-.l_v01 {position: absolute; top  : 03rem;}
-.l_v02 {position: absolute; top  : 06rem;}
-.l_v03 {position: absolute; top  : 09rem;}
-.l_v04 {position: absolute; top  : 12rem;}
-.l_v05 {position: absolute; top  : 15rem;}
-.l_v06 {position: absolute; top  : 18rem;}
-.l_v07 {position: absolute; top  : 21rem;}
-.l_v08 {position: absolute; top  : 24rem;}
-.l_v09 {position: absolute; top  : 27rem;}
-.l_v10 {position: absolute; top  : 30rem;}
-.l_v11 {position: absolute; top  : 33rem;}
-.l_v12 {position: absolute; top  : 36rem;}
-.l_v13 {position: absolute; top  : 39rem;}
-.l_v14 {position: absolute; top  : 42rem;}
-.l_v15 {position: absolute; top  : 45rem;}
-.l_v16 {position: absolute; top  : 48rem;}
-.l_v17 {position: absolute; top  : 51rem;}
-.l_v18 {position: absolute; top  : 54rem;}
-.l_v19 {position: absolute; top  : 57rem;}
+.l_cL   {position: absolute; left : 20vw;}
+.l_cR   {position: absolute; right: 20vw;}
+.l_cL0  {position: absolute; left : -80vw;}
+.l_cR0  {position: absolute; right: -80vw;}
+
+.l_v01  {position: absolute; top  :  05vh;}
+.l_v02  {position: absolute; top  :  10vh;}
+.l_v03  {position: absolute; top  :  15vh;}
+.l_v04  {position: absolute; top  :  20vh;}
+.l_v05  {position: absolute; top  :  25vh;}
+.l_v06  {position: absolute; top  :  30vh;}
+.l_v07  {position: absolute; top  :  35vh;}
+.l_v08  {position: absolute; top  :  40vh;}
+.l_v09  {position: absolute; top  :  45vh;}
+.l_v10  {position: absolute; top  :  50vh;}
+.l_v11  {position: absolute; top  :  55vh;}
+.l_v12  {position: absolute; top  :  60vh;}
+.l_v13  {position: absolute; top  :  65vh;}
+.l_v14  {position: absolute; top  :  70vh;}
+.l_v15  {position: absolute; top  :  75vh;}
+.l_v16  {position: absolute; top  :  80vh;}
+.l_v17  {position: absolute; top  :  85vh;}
+.l_v18  {position: absolute; top  :  90vh;}
+.l_v19  {position: absolute; top  :  95vh;}
+
+.l_v010 {position: absolute; top  : -95vh;}
+.l_v020 {position: absolute; top  : -90vh;}
+.l_v030 {position: absolute; top  : -85vh;}
+.l_v040 {position: absolute; top  : -80vh;}
+.l_v050 {position: absolute; top  : -75vh;}
+.l_v060 {position: absolute; top  : -70vh;}
+.l_v070 {position: absolute; top  : -65vh;}
+.l_v080 {position: absolute; top  : -60vh;}
+.l_v090 {position: absolute; top  : -55vh;}
+.l_v100 {position: absolute; top  : -50vh;}
+.l_v110 {position: absolute; top  : -45vh;}
+.l_v120 {position: absolute; top  : -40vh;}
+.l_v130 {position: absolute; top  : -35vh;}
+.l_v140 {position: absolute; top  : -30vh;}
+.l_v150 {position: absolute; top  : -25vh;}
+.l_v160 {position: absolute; top  : -20vh;}
+.l_v170 {position: absolute; top  : -15vh;}
+.l_v180 {position: absolute; top  : -10vh;}
+.l_v190 {position: absolute; top  : -05vh;}
