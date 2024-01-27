@@ -93,22 +93,22 @@ let OrderEles = {
 };
 let TsA2B = {
     vw2px : function (vwValue) {
-        const vwWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const vwWidth = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
         const pxValue = (vwValue * vwWidth) / 100;
         return pxValue;
     },
     vh2px : function (vhValue) {
-        const vhHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        const vhHeight = document.body.clientHeight || window.innerHeight || document.documentElement.clientHeight;
         const pxValue = (vhValue * vhHeight) / 100;
         return pxValue;
     },
     px2vw : function (pxValue) {
-        const vwWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const vwWidth = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
         const vwValue = (pxValue / vwWidth) * 100;
         return vwValue;
     },
     px2vh : function (pxValue) {
-        const vhHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        const vhHeight = document.body.clientHeight|| document.documentElement.clientHeight ||  window.innerHeight;
         const vhValue = (pxValue / vhHeight) * 100;
         return vhValue;
     },
@@ -198,8 +198,8 @@ let Move = {
         let currentX = rect.left + window.scrollX - currentTslXv;
         let currentY = rect.top + window.scrollY - currentTslYv;
         // 计算需要移动的距离
-        let translateX = -1* TsA2B.px2vw(currentX);
-        let translateY = -1* TsA2B.px2vh(currentY);
+        let translateX = -1* TsA2B.px2vw(currentX).toFixed(2);
+        let translateY = -1* TsA2B.px2vh(currentY).toFixed(2);
         // 将元素移动到左上角
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`; 
         OrderEles.init(bClickedEleBros);
