@@ -179,7 +179,9 @@ function sleep(ms) {
 };
 let Move = {
     LT : async function () { 
-        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+        let prtEle = this.parentElement;
+        let prtEleId = prtEle.id;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
         this.style.pointerEvents = 'none';
         // 获取当前元素的位置
@@ -205,12 +207,15 @@ let Move = {
         setOnclick.byEle(this, Move.Bk);
         await OrderEles.move_out();
         await Change.btnB2gray(this, 128);
+        Change.shadowDisappear(prtEleId, 256);
         Change.topBarGrow(256);
         this.style.pointerEvents = 'auto';
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
     Bk : async function() {
-        let bClickedEleBros = Array.from(this.parentElement.children).filter(child => child !== this);
+        let prtEle = this.parentElement;
+        let prtEleId = prtEle.id;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
         this.style.pointerEvents = 'none';
         let currentTslXv = 0;
@@ -222,6 +227,7 @@ let Move = {
             currentTslYv = this.tslYv;
         };
         
+        Change.shadowAppear(prtEleId, 256);
         await Change.topBarShorten(256);
         await Change.btnB2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
@@ -269,19 +275,40 @@ let Change = {
         ele.style.width = '0vw';
         await sleep(ms);
     },
+    shadowAppear : async function(idName, opValue, ms) {
+        let ele = document.getElementById(idName);
+        ele.style.transition = `opacity ${ms}ms ease-in-out`;
+        ele.style.opacity = opValue;
+        await sleep(ms);
+    },
+    shadowAppear : async function(idName, ms, opValue = 0.4) {
+        let ele = document.getElementById(idName + 'S');
+        ele.style.opacity = 0;
+        ele.style.display = 'block';
+        ele.style.transition = `opacity ${ms}ms ease-in-out`;
+        await sleep(ms);
+        ele.style.opacity = opValue;
+    },
+    shadowDisappear : async function(idName, ms) {
+        let ele = document.getElementById(idName + 'S');
+        ele.style.transition = `opacity ${ms}ms ease-in-out`;
+        ele.style.opacity = 0;
+        await sleep(ms);
+        ele.style.display = 'none';
+    },
 }
 let Call = {
-    mainMenu : function() {
-        // if (noClick === true) {return};
-        let mainMenuEles = document.getElementById('battleMenu').children;
+    battleMenu : async function() {
+        let battleMenuEles = document.getElementById('battleMenu').children;
         // 所有操作顺序元素归类
-        OrderEles.init(mainMenuEles);
+        OrderEles.init(battleMenuEles);
 
         OrderEles.move_in(100);
-        setOnclick.byEles(mainMenuEles, Move.LT);
+        setOnclick.byEles(battleMenuEles, Move.LT);
         setOnclick.byEle(this, Move.doNothing);
-    },
+        await Change.shadowAppear("battleMenu", 256);
+    }
 };
 window.onload = function() {
-    setOnclick.byId('body',Call.mainMenu);
+    setOnclick.byId('body',Call.battleMenu);
 };

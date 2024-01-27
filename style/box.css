@@ -1,6 +1,17 @@
 .box_text {
     background-color: #000000bf;
 }
-#battleMenuMenu {
+#battleMenu {
     margin: 0;
+    z-index: 61;
+}
+#battleMenuS {
+    margin: 0;
+    z-index: 60;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0;
 }
