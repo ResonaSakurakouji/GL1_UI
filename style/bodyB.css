@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #000000; /* 默认背景颜色为黑色 */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: -15;
+}
+body * {
+    -webkit-user-select : none;
+    user-select: none;
+}
+body::before {
+    content: "";
+    /* background: url('../background/miku087.jpg') center/contain no-repeat;  */
+    background: url('https://www.logo11.cn/uploads/allimg/170526/1_170526154436_1.jpg') center/contain no-repeat;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -16; /* 确保背景图片位于body下方 */
+}
+#bodyShadow {
+    margin: 0;
+}
+
+#t0Bar {position: fixed; left: 0vw; top:  2vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
+#b0Bar {position: fixed; left: 0vw; top: 92vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
+
+.l_cL   {position: fixed; left :  20vw;}
+.l_cR   {position: fixed; right:  20vw;}
+.l_cL0  {position: fixed; left : -80vw;}
+.l_cR0  {position: fixed; right: -80vw;}
+
+.l_v01  {position: fixed; top  :  05vh;}
+.l_v02  {position: fixed; top  :  10vh;}
+.l_v03  {position: fixed; top  :  15vh;}
+.l_v04  {position: fixed; top  :  20vh;}
+.l_v05  {position: fixed; top  :  25vh;}
+.l_v06  {position: fixed; top  :  30vh;}
+.l_v07  {position: fixed; top  :  35vh;}
+.l_v08  {position: fixed; top  :  40vh;}
+.l_v09  {position: fixed; top  :  45vh;}
+.l_v10  {position: fixed; top  :  50vh;}
+.l_v11  {position: fixed; top  :  55vh;}
+.l_v12  {position: fixed; top  :  60vh;}
+.l_v13  {position: fixed; top  :  65vh;}
+.l_v14  {position: fixed; top  :  70vh;}
+.l_v15  {position: fixed; top  :  75vh;}
+.l_v16  {position: fixed; top  :  80vh;}
+.l_v17  {position: fixed; top  :  85vh;}
+.l_v18  {position: fixed; top  :  90vh;}
+.l_v19  {position: fixed; top  :  95vh;}
+
+.l_v010 {position: fixed; top  : -95vh;}
+.l_v020 {position: fixed; top  : -90vh;}
+.l_v030 {position: fixed; top  : -85vh;}
+.l_v040 {position: fixed; top  : -80vh;}
+.l_v050 {position: fixed; top  : -75vh;}
+.l_v060 {position: fixed; top  : -70vh;}
+.l_v070 {position: fixed; top  : -65vh;}
+.l_v080 {position: fixed; top  : -60vh;}
+.l_v090 {position: fixed; top  : -55vh;}
+.l_v100 {position: fixed; top  : -50vh;}
+.l_v110 {position: fixed; top  : -45vh;}
+.l_v120 {position: fixed; top  : -40vh;}
+.l_v130 {position: fixed; top  : -35vh;}
+.l_v140 {position: fixed; top  : -30vh;}
+.l_v150 {position: fixed; top  : -25vh;}
+.l_v160 {position: fixed; top  : -20vh;}
+.l_v170 {position: fixed; top  : -15vh;}
+.l_v180 {position: fixed; top  : -10vh;}
+.l_v190 {position: fixed; top  : -05vh;}

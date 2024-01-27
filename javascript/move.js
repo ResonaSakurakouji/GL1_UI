@@ -207,10 +207,10 @@ let Move = {
         setOnclick.byEle(this, Move.Bk);
         await OrderEles.move_out();
         await Change.btnB2gray(this, 128);
-        Change.shadowDisappear(prtEleId, 256);
         Change.topBarGrow(256);
-        this.style.pointerEvents = 'auto';
+        await Change.shadowDisappear(prtEleId, 256);
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
+        this.style.pointerEvents = 'auto';
     },
     Bk : async function() {
         let prtEle = this.parentElement;
@@ -281,7 +281,7 @@ let Change = {
         ele.style.opacity = opValue;
         await sleep(ms);
     },
-    shadowAppear : async function(idName, ms, opValue = 0.4) {
+    shadowAppear : async function(idName, ms, opValue = 0.65) {
         let ele = document.getElementById(idName + 'S');
         ele.style.opacity = 0;
         ele.style.display = 'block';
