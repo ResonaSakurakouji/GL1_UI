@@ -15,3 +15,15 @@
     background-color: #000000;
     opacity: 0;
 }
+#leftForm {
+    margin: 0;
+    position: fixed;
+    height: 73vh;
+    width: 21vw;
+    background-image: linear-gradient(to top, rgb(35, 27, 25), rgb(57, 59, 56));
+    color: rgb(163, 155, 142);
+    opacity: 0.5;
+    left: -21vw;
+    top: 7vh;
+    transition: transform 128ms ease-out;
+}

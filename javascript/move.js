@@ -208,6 +208,7 @@ let Move = {
         await OrderEles.move_out();
         await Change.btnB2gray(this, 128);
         Change.topBarGrow(256);
+        Call.leftForm(this);
         await Change.shadowDisappear(prtEleId, 256);
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
         this.style.pointerEvents = 'auto';
@@ -229,6 +230,7 @@ let Move = {
         
         Change.shadowAppear(prtEleId, 256);
         await Change.topBarShorten(256);
+        Close.leftForm();
         await Change.btnB2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
@@ -307,8 +309,25 @@ let Call = {
         setOnclick.byEles(battleMenuEles, Move.LT);
         setOnclick.byEle(this, Move.doNothing);
         await Change.shadowAppear("battleMenu", 256);
-    }
+    },
+    leftForm : async function(jsonObj) {
+        let leftFormEle = document.getElementById('leftForm');
+        OrderEles.init([leftFormEle]);
+        await OrderEles.move_in(21);
+    },
 };
+let Close = {
+    leftForm : async function(jsonObj) {
+        let leftFormEle = document.getElementById('leftForm');
+        OrderEles.init([leftFormEle]);
+        await OrderEles.move_out();
+    },
+};
+
+let Show = {
+    'pass': undefined,
+};
+
 window.onload = function() {
     setOnclick.byId('body',Call.battleMenu);
 };

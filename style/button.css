@@ -27,14 +27,14 @@
     background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
 }
 .btn_size_b {
-    width: 24vw;
-    height: 8vh;
-    font-size: min(6vh, 3vw);
+    width: 21vw;
+    height: 7vh;
+    font-size: min(5vh, 3vw);
 }
 .btn_size_b_c {
     position: fixed;
-    width: 24vw;
-    height: 8vh;
-    font-size: min(6vh, 3vw);
+    width: 21vw;
+    height: 7vh;
+    font-size: min(5vh, 3vw);
     left: 38vw;
 }
