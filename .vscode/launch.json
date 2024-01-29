@@ -7,8 +7,8 @@
         {
             "type": "msedge",
             "request": "launch",
-            "name": "Open Test.html",
-            "file": "g:\\Code\\HTML\\20240124GrowLancerUI\\Test.html"
+            "name": "Open TestB.html",
+            "file": "g:\\Code\\HTML\\20240124GrowLancerUI\\TestB.html"
         }
     ]
 }

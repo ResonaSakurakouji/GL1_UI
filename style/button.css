@@ -1,6 +1,6 @@
 .btn {
     display: flex;
-    background-image: radial-gradient(ellipse at center, rgb(198, 148, 106), rgb(138, 94, 53)); /* 中心到四周的渐变 */
+    background-image: radial-gradient(ellipse at center, rgba(198, 148, 106, 1), rgba(138, 94, 53, 1)); /* 中心到四周的渐变 */
     border: none;
     color: #000000ff;
     font-weight: bold;
@@ -11,30 +11,64 @@
     outline: none;
     z-index: 63;
 }
+.btn2 {
+    display: flex;
+    background-image: linear-gradient(to bottom, rgba(138, 94, 53, 1), rgba(198, 148, 106, 1)40%, rgba(198, 148, 106, 1)60%, rgba(138, 94, 53, 1)100%); /* 上下线性渐变 */
+    border: none;
+    color: #000000ff;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    z-index: 66;
+}
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
 }
 #btn_LT_b {
+    margin: 0;
     position: fixed; 
     left: 0vw; 
     top: 0vh; 
     opacity: 0;
-    background-image: radial-gradient(ellipse at center, rgb(184, 171, 165), rgb(159, 152, 144));
+    background-image: radial-gradient(ellipse at center, rgba(184, 171, 165), rgba(159, 152, 144));
     pointer-events: none;
     z-index: 62;
 }
+#btn2_LT_b {
+    margin: 0;
+    left: 0vw; 
+    top: 0vh; 
+    opacity: 0;
+    background-image: radial-gradient(ellipse at center, rgba(184, 171, 165), rgba(159, 152, 144));
+    pointer-events: none;
+    z-index: 65;
+}
 .btn:hover {
-    background-image: radial-gradient(ellipse at center, rgb(236, 192, 107), rgb(166, 121, 66));
+    background-image: radial-gradient(ellipse at center, rgba(236, 192, 107), rgba(166, 121, 66));
+}
+.btn2:hover {
+    background-image: linear-gradient(to bottom, rgba(166, 121, 66, 1) rgba(236, 192, 107, 1) 40%, rgba(236, 192, 107, 1) 60%, rgba(166, 121, 66) 100%);
 }
 .btn_size_b {
+    margin: 0;
     width: 21vw;
     height: 7vh;
     font-size: min(5vh, 3vw);
 }
 .btn_size_b_c {
+    margin: 0;
     position: fixed;
     width: 21vw;
     height: 7vh;
     font-size: min(5vh, 3vw);
-    left: 38vw;
+    left: 39.5vw;
+}
+.btn2_size_b {
+    margin: 0;
+    width: 18vw;
+    height: 7vh;
+    font-size: min(4vh, 2.5vw);
 }

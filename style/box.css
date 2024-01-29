@@ -18,12 +18,29 @@
 #leftForm {
     margin: 0;
     position: fixed;
-    height: 73vh;
+    height: 63vh;
     width: 21vw;
-    background-image: linear-gradient(to top, rgb(35, 27, 25), rgb(57, 59, 56));
+    background-image: linear-gradient(to top, rgba(35, 27, 25, 0.6), rgba(57, 59, 56, 1));
     color: rgb(163, 155, 142);
-    opacity: 0.5;
     left: -21vw;
-    top: 7vh;
+    top: 17vh;
     transition: transform 128ms ease-out;
+    z-index: 64;
+}
+#leftFormHidden {
+    display: none; 
+    margin: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 3vw;
+    font-size: 3vw;
+    height: 100%;
+    line-height: 1;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, rgba(57, 59, 56, 1), rgba(35, 27, 25, 0.6) 50%, rgba(57, 59, 56, 1) 100%);
+    transition: transform 128ms ease-in-out;
+    z-index: 67;
 }
