@@ -28,8 +28,8 @@ body::before {
     margin: 0;
 }
 
-#t0Bar {position: fixed; left: 0vw; top:  2vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
-#b0Bar {position: fixed; left: 0vw; top: 92vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
+#t0Bar {position: fixed; right: 0vw; top:  1.5vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
+#b0Bar {position: fixed; right: 0vw; top: 91.5vh; height: 4vh; width: 0vw; background-image: linear-gradient(to top, rgb(103, 109, 105) 35%, rgb(158, 171, 180)); z-index: 31;}
 
 .l_cL   {position: fixed; left :  20vw;}
 .l_cR   {position: fixed; right:  20vw;}
