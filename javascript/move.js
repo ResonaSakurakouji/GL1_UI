@@ -1,4 +1,4 @@
-var oldClickHandler = [];
+let leftFormOrigin;
 const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let OrderEles = {
     eles : {} ,
@@ -283,6 +283,7 @@ let Move = {
     },
     ele_Bk : async function () { 
         let prtEle = this.parentElement;
+        let hiddenEle;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
@@ -425,7 +426,16 @@ let Call = {
 };
 let Close = {
     leftForm : async function(jsonObj) {
-        let leftFormEle = document.getElementById('leftForm');
+        // 初始化
+        let leftFormEle = document.getElementById('leftForm'); 
+        bClickedEles = Array.from(leftFormEle.children).filter(child => !child.id.match(/\w*_LT_\w*/));
+        for (let ele_i of bClickedEles) {
+            if (ele_i.style.opacity === '0') {
+                ele_i.click();
+                break;
+            };
+        };
+
         OrderEles.init([leftFormEle]);
         await OrderEles.move_out();
     },
@@ -458,4 +468,5 @@ let Show = {
 
 window.onload = function() {
     setOnclick.byId('body',Call.battleMenu);
+    leftFormOrigin = document.getElementById("leftForm");
 };
