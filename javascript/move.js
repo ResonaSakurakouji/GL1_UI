@@ -241,9 +241,15 @@ let Move = {
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
     },
     ele_LT : async function (eleForm) { 
+        let hiddenEle;
         let prtEle = this.parentElement;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => (child !== this) || !(child.id.match(/\w*Hidden\w*/)));
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
+        try {
+            hiddenEle = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/))[0];
+        } catch (e) {;}
+        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'none');
         this.style.pointerEvents = 'none';
         // 获取当前元素的位置
         let rect = this.getBoundingClientRect();
@@ -266,35 +272,45 @@ let Move = {
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`; 
         OrderEles.init(bClickedEleBros);
     
-        setOnclick.byEle(this, Move.ele_Bk);
+        setOnclick.byEle(this, Move.ele_Bk, prtEle);
         await OrderEles.move_in(-18);
         await Change.btn2B2gray(this, 128);
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
+        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'auto');
         this.style.pointerEvents = 'auto';
+        if (hiddenEle) {
+            hiddenEle.style.pointerEvents = 'auto';
+        };
     },
     ele_Bk : async function () { 
         let prtEle = this.parentElement;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => (child !== this) || !(child.id.match(/\w*Hidden\w*/)));
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
+        try {
+            hiddenEle = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/))[0];
+        } catch (e) {;}
+        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'none');
         this.style.pointerEvents = 'none';
         let currentTslXv = 0;
         let currentTslYv = 0;
         if (this.tslXv !== undefined) {
-            currentTslXv = this.tslXv;
+            currentTslXv += this.tslXv;
         };
         if (this.tslYv !== undefined) {
-            currentTslYv = this.tslYv;
+            currentTslYv += this.tslYv;
         };
-        
-        await Change.topBarShorten(256);
-        await Change.btnB2original(this, 128);
+        await Change.btn2B2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
+        // console.log(`translate(${translateX}vw, ${translateY}vh`);
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
-        setOnclick.byEle(this, Move.ele_LT, this.parentElement);
-        await OrderEles.move_in(100); 
+        setOnclick.byEle(this, Move.ele_LT, prtEle);
+        await OrderEles.move_out(); 
         this.style.pointerEvents = 'auto';
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
+        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'auto');
+        if (hiddenEle) {
+            hiddenEle.style.pointerEvents = 'auto';
+        };
     },
     doNothing : function() {return;},
 };
@@ -391,17 +407,18 @@ let Call = {
     leftForm : async function(jsonObj) {
         let leftFormEle = document.getElementById('leftForm');
         let leftFormEleHidden = document.getElementById('leftFormHidden');
-        let leftFormEleChildren = leftFormEle.children;
+        let leftFormEleChildren = Array.from(leftFormEle.children).filter(child => child !== leftFormEleHidden);
+        leftFormEleChildren = Array.from(leftFormEleChildren).filter(child => child.id !== 'btn2_LT_b');
         OrderEles.init([leftFormEle]);
         leftFormEleHidden.style.display = 'flex';
         leftFormEleHidden.style.opacity = '1';
-        setOnclick.byEle(leftFormEleHidden, Hidden.leftForm);
-        setOnclick.byEles(leftFormEleChildren, Call.leftFormSon, true);
+        setOnclick.byEle(leftFormEleHidden, Hidden.leftForm, true);
+        setOnclick.byEles(leftFormEleChildren, Move.ele_LT, leftFormEle);
         await OrderEles.move_in(21);
     },
     leftFormSon : async function(jsonObj) {
         if (jsonObj) {
-            setOnclick.byEle(this, Move.ele_LT, this.parentElement);
+            setOnclick.byEle(this, Move.ele_Bk);
 
         };
     },
@@ -415,8 +432,9 @@ let Close = {
     leftFormSon : async function(jsonObj) {
         let leftFormEles = document.getElementById('leftForm').children;
         leftFormEles = Array.from(leftFormEles).filter(ele => ele.id !== 'leftFormHidden');
+        leftFormEles = Array.from(leftFormEles).filter(ele => ele.id !== 'btn2_LT_b');
         OrderEles.init(leftFormEles);
-        await OrderEles.move_out();
+        await OrderEles.move_in(21);
     },
 };
 let Hidden = {
