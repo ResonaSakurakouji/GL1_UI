@@ -60,27 +60,27 @@ let OrderEles = {
         };
         await sleep(this.sleepS * 1024);
     },
-    move_out : async function() {
+    move_out : async function(vhw_x = 0) {
         noClick = true;
         let exed = false;
         for (let i of orderList) {
             for (let ele_i of OrderEles.eles[i]) {
                 if (ele_i.classList.contains('out_left')) {
                     exed = true;
-                    ele_i.tslXv = 0;
-                    ele_i.style.transform = 'translateX(0vw)';
+                    ele_i.tslXv = -vhw_x;
+                    ele_i.style.transform = `translateX(-${vhw_x}vw)`;
                 } else if (ele_i.classList.contains('out_right')) {
                     exed = true;
-                    ele_i.tslXv = 0;
-                    ele_i.style.transform = 'translateX(0vw)';
+                    ele_i.tslXv = vhw_x;
+                    ele_i.style.transform = `translateX(${vhw_x}vw)`;
                 } else if (ele_i.classList.contains('out_up')) {
                     exed = true;
-                    ele_i.tslYv = 0;
-                    ele_i.style.transform = 'translateY(0vh)';
+                    ele_i.tslYv = -vhw_x;
+                    ele_i.style.transform = `translateY(-${vhw_x}vh)`;
                 } else if (ele_i.classList.contains('out_down')) {
                     exed = true;
-                    ele_i.tslYv = 0;
-                    ele_i.style.transform = 'translateY(0vh)';
+                    ele_i.tslYv = vhw_x;
+                    ele_i.style.transform = `translateY(${vhw_x}vh)`;
                 }
             };
             if (exed === true) {
@@ -312,7 +312,10 @@ let Call = {
     },
     leftForm : async function(jsonObj) {
         let leftFormEle = document.getElementById('leftForm');
+        let leftFormEleHidden = document.getElementById('leftFormHidden');
         OrderEles.init([leftFormEle]);
+        leftFormEleHidden.style.display = 'flex';
+        setOnclick.byEle(leftFormEleHidden, Hidden.leftForm);
         await OrderEles.move_in(21);
     },
 };
@@ -323,9 +326,23 @@ let Close = {
         await OrderEles.move_out();
     },
 };
-
+let Hidden = {
+    leftForm : async function() {
+        let leftFormEle = document.getElementById('leftForm');
+        OrderEles.init([leftFormEle]);
+        this.style.opacity = "0.2";
+        setOnclick.byEle(this, Show.leftForm);
+        await OrderEles.move_in(3);
+    },
+}
 let Show = {
-    'pass': undefined,
+    leftForm : async function() {
+        let leftFormEle = document.getElementById('leftForm');
+        OrderEles.init([leftFormEle]);
+        this.style.opacity = "1";
+        setOnclick.byEle(this, Hidden.leftForm);
+        await OrderEles.move_in(21);
+    },
 };
 
 window.onload = function() {
