@@ -184,8 +184,6 @@ let Move = {
         let prtEle = this.parentElement;
         let prtEleId = prtEle.id;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
-        this.style.pointerEvents = 'none';
         // 获取当前元素的位置
         let rect = this.getBoundingClientRect();
         let currentTslXv = 0;
@@ -212,8 +210,6 @@ let Move = {
         Change.topBarGrow(256);
         Call.leftForm();
         await Change.shadowDisappear(prtEleId, 256);
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
-        this.style.pointerEvents = 'auto';
         globalNoClick = false;
     },
     Bk : async function() {
@@ -222,8 +218,6 @@ let Move = {
         let prtEle = this.parentElement;
         let prtEleId = prtEle.id;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'none');
-        this.style.pointerEvents = 'none';
         let currentTslXv = 0;
         let currentTslYv = 0;
         if (this.tslXv !== undefined) {
@@ -242,23 +236,15 @@ let Move = {
         OrderEles.init(bClickedEleBros);
         setOnclick.byEle(this, Move.LT);
         await OrderEles.move_in(100); 
-        this.style.pointerEvents = 'auto';
-        Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
         globalNoClick = false;
     },
     ele_LT : async function (eleForm) { 
         if (globalNoClick === true) {return;}
         globalNoClick = true;
-        let hiddenEle;
         let prtEle = this.parentElement;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
-        try {
-            hiddenEle = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/))[0];
-        } catch (e) {;}
-        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'none');
-        this.style.pointerEvents = 'none';
         // 获取当前元素的位置
         let rect = this.getBoundingClientRect();
         let eleRect = eleForm.getBoundingClientRect();
@@ -283,26 +269,15 @@ let Move = {
         setOnclick.byEle(this, Move.ele_Bk, prtEle);
         await OrderEles.move_in(-18);
         await Change.btn2B2gray(this, 128);
-        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'auto');
-        this.style.pointerEvents = 'auto';
-        if (hiddenEle) {
-            hiddenEle.style.pointerEvents = 'auto';
-        };
         globalNoClick = false;
     },
     ele_Bk : async function () { 
         if (globalNoClick === true) {return;}
         globalNoClick = true;
         let prtEle = this.parentElement;
-        let hiddenEle;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
-        try {
-            hiddenEle = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/))[0];
-        } catch (e) {;}
-        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'none');
-        this.style.pointerEvents = 'none';
         let currentTslXv = 0;
         let currentTslYv = 0;
         if (this.tslXv !== undefined) {
@@ -317,11 +292,6 @@ let Move = {
         OrderEles.init(bClickedEleBros);
         setOnclick.byEle(this, Move.ele_LT, prtEle);
         await OrderEles.move_out(); 
-        this.style.pointerEvents = 'auto';
-        Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'auto');
-        if (hiddenEle) {
-            hiddenEle.style.pointerEvents = 'none';
-        };
         globalNoClick = false;
     },
     doNothing : function() {return;},
@@ -460,20 +430,26 @@ let Close = {
 };
 let Hidden = {
     leftForm : async function() {
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let leftFormEle = document.getElementById('leftForm');
         OrderEles.init([leftFormEle]);
         this.style.opacity = "0.2";
         setOnclick.byEle(this, Show.leftForm);
         await OrderEles.move_in(3);
+        globalNoClick = false;
     },
 };
 let Show = {
     leftForm : async function() {
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let leftFormEle = document.getElementById('leftForm');
         OrderEles.init([leftFormEle]);
         this.style.opacity = "1";
         setOnclick.byEle(this, Hidden.leftForm);
         await OrderEles.move_in(21);
+        globalNoClick = false;
     },
 };
 
