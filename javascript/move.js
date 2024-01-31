@@ -228,9 +228,17 @@ let Move = {
         };
         
         Change.shadowAppear(prtEleId, 256);
-        Close.leftForm();
-        await Change.topBarShorten(256);
-        await Change.btnB2original(this, 128);
+        const promise1 = new Promise(resolve => {
+            Change.shadowAppear(prtEleId, 256).then(resolve);
+        });
+        const promise2 = new Promise(resolve => {
+            Close.leftForm().then(resolve);
+        });
+        const promise3 = new Promise(resolve => {
+            Change.topBarShorten(256).then(resolve);
+        });
+        await Promise.all([promise1, promise2, promise3]);
+        Change.btnB2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
@@ -242,6 +250,7 @@ let Move = {
         if (globalNoClick === true) {return;}
         globalNoClick = true;
         let prtEle = this.parentElement;
+        prtEle.bChanged = this;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
         bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
@@ -292,6 +301,7 @@ let Move = {
         OrderEles.init(bClickedEleBros);
         setOnclick.byEle(this, Move.ele_LT, prtEle);
         await OrderEles.move_out(); 
+        prtEle.bChanged = false;
         globalNoClick = false;
     },
     doNothing : function() {return;},
@@ -407,16 +417,11 @@ let Call = {
 };
 let Close = {
     leftForm : async function(jsonObj) {
-        // 初始化
         let leftFormEle = document.getElementById('leftForm'); 
-        bClickedEles = Array.from(leftFormEle.children).filter(child => !child.id.match(/\w*_LT_\w*/));
-        for (let ele_i of bClickedEles) {
-            if (ele_i.style.opacity === '0') {
-                ele_i.click();
-                break;
-            };
+        if (leftFormEle.bChanged) {
+            globalNoClick = false;
+            await Move.ele_Bk.call(leftFormEle.bChanged);
         };
-
         OrderEles.init([leftFormEle]);
         await OrderEles.move_out();
     },

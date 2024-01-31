@@ -7,13 +7,13 @@
 }
 #battleMenuS {
     margin: 0;
-    z-index: 60;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: #000000;
     opacity: 0;
+    z-index: 60;
 }
 #leftForm {
     margin: 0;
@@ -25,7 +25,7 @@
     left: -21vw;
     top: 17vh;
     transition: transform 256ms ease-out;
-    z-index: 64;
+    z-index: 56;
 }
 #leftFormHidden {
     display: none; 
@@ -42,5 +42,5 @@
     align-items: center;
     background-image: linear-gradient(to right, rgba(57, 59, 56, 1), rgba(35, 27, 25, 0.6) 50%, rgba(57, 59, 56, 1) 100%);
     transition: transform 256ms ease-in;
-    z-index: 67;
+    z-index: 57;
 }

@@ -7,6 +7,9 @@
 .eio128 {
     transition: transform 128ms ease-in-out;
 }
+.eio192 {
+    transition: transform 192ms ease-in-out;
+}
 .eio256 {
     transition: transform 256ms ease-in-out;
 }

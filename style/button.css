@@ -22,7 +22,7 @@
     align-items: center;
     cursor: pointer;
     outline: none;
-    z-index: 66;
+    z-index: 57;
 }
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
@@ -44,7 +44,7 @@
     opacity: 0;
     background-image: radial-gradient(ellipse at center, rgba(184, 171, 165), rgba(159, 152, 144));
     pointer-events: none;
-    z-index: 65;
+    z-index: 56;
 }
 .btn:hover {
     background-image: radial-gradient(ellipse at center, rgba(236, 192, 107), rgba(166, 121, 66));
