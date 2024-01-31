@@ -1,4 +1,4 @@
-let leftFormOrigin;
+var globalNoClick = false;
 const orderList = ['m1st','m2nd','m3rd','m4th','m5th','m6th','m7th','m8th'];
 let OrderEles = {
     eles : {} ,
@@ -179,6 +179,8 @@ function sleep(ms) {
 };
 let Move = {
     LT : async function () { 
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let prtEle = this.parentElement;
         let prtEleId = prtEle.id;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
@@ -212,8 +214,11 @@ let Move = {
         await Change.shadowDisappear(prtEleId, 256);
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
         this.style.pointerEvents = 'auto';
+        globalNoClick = false;
     },
     Bk : async function() {
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let prtEle = this.parentElement;
         let prtEleId = prtEle.id;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
@@ -239,8 +244,11 @@ let Move = {
         await OrderEles.move_in(100); 
         this.style.pointerEvents = 'auto';
         Array.from(bClickedEleBros).forEach(bro => bro.style.pointerEvents = 'auto');
+        globalNoClick = false;
     },
     ele_LT : async function (eleForm) { 
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let hiddenEle;
         let prtEle = this.parentElement;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
@@ -280,8 +288,11 @@ let Move = {
         if (hiddenEle) {
             hiddenEle.style.pointerEvents = 'auto';
         };
+        globalNoClick = false;
     },
     ele_Bk : async function () { 
+        if (globalNoClick === true) {return;}
+        globalNoClick = true;
         let prtEle = this.parentElement;
         let hiddenEle;
         let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this);
@@ -302,7 +313,6 @@ let Move = {
         };
         await Change.btn2B2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
-        // console.log(`translate(${translateX}vw, ${translateY}vh`);
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
         setOnclick.byEle(this, Move.ele_LT, prtEle);
@@ -310,8 +320,9 @@ let Move = {
         this.style.pointerEvents = 'auto';
         Array.from(prtEle.children).forEach(bro => bro.style.pointerEvents = 'auto');
         if (hiddenEle) {
-            hiddenEle.style.pointerEvents = 'auto';
+            hiddenEle.style.pointerEvents = 'none';
         };
+        globalNoClick = false;
     },
     doNothing : function() {return;},
 };
@@ -468,5 +479,4 @@ let Show = {
 
 window.onload = function() {
     setOnclick.byId('body',Call.battleMenu);
-    leftFormOrigin = document.getElementById("leftForm");
 };
