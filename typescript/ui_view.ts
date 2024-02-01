@@ -84,6 +84,7 @@ namespace GL1Box {
             let exed = false;
             for (let i of gOrderList) {
                 for (let ele_i of this.eles.get(i) || []) {
+                    ele_i.inherentMovingDisance = vhw_x;
                     if (ele_i.classList.contains('out_left')) {
                         exed = true;
                         ele_i.tslXv = vhw_x;
@@ -441,8 +442,8 @@ namespace ShowBox {
         await tippiBox.LinerMoveTo(21);
         globalNoClick = false;
         return;
-    }
-}
+    };
+};
 
 window.onload = function() {
     OnClick.setById('body', CallBox.battleMenu);
