@@ -177,7 +177,7 @@ let setOnclick = {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
-let Move = {
+let jsMove = {
     LT : async function () { 
         if (globalNoClick === true) {return;}
         globalNoClick = true;
@@ -204,7 +204,7 @@ let Move = {
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`; 
         OrderEles.init(bClickedEleBros);
     
-        setOnclick.byEle(this, Move.Bk);
+        setOnclick.byEle(this, jsMove.Bk);
         await OrderEles.move_out();
         await Change.btnB2gray(this, 128);
         Change.topBarGrow(256);
@@ -242,7 +242,7 @@ let Move = {
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
-        setOnclick.byEle(this, Move.LT);
+        setOnclick.byEle(this, jsMove.LT);
         await OrderEles.move_in(100); 
         globalNoClick = false;
     },
@@ -275,7 +275,7 @@ let Move = {
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`; 
         OrderEles.init(bClickedEleBros);
     
-        setOnclick.byEle(this, Move.ele_Bk, prtEle);
+        setOnclick.byEle(this, jsMove.ele_Bk, prtEle);
         await OrderEles.move_in(-18);
         await Change.btn2B2gray(this, 128);
         globalNoClick = false;
@@ -299,7 +299,7 @@ let Move = {
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh`; 
         // 所有操作顺序元素归类
         OrderEles.init(bClickedEleBros);
-        setOnclick.byEle(this, Move.ele_LT, prtEle);
+        setOnclick.byEle(this, jsMove.ele_LT, prtEle);
         await OrderEles.move_out(); 
         prtEle.bChanged = false;
         globalNoClick = false;
@@ -392,8 +392,8 @@ let Call = {
         OrderEles.init(battleMenuEles);
 
         OrderEles.move_in(100);
-        setOnclick.byEles(battleMenuEles, Move.LT);
-        setOnclick.byEle(this, Move.doNothing);
+        setOnclick.byEles(battleMenuEles, jsMove.LT);
+        setOnclick.byEle(this, jsMove.doNothing);
         await Change.shadowAppear("battleMenu", 256);
     },
     leftForm : async function(jsonObj) {
@@ -405,12 +405,12 @@ let Call = {
         leftFormEleHidden.style.display = 'flex';
         leftFormEleHidden.style.opacity = '1';
         setOnclick.byEle(leftFormEleHidden, Hidden.leftForm, true);
-        setOnclick.byEles(leftFormEleChildren, Move.ele_LT, leftFormEle);
+        setOnclick.byEles(leftFormEleChildren, jsMove.ele_LT, leftFormEle);
         await OrderEles.move_in(21);
     },
     leftFormSon : async function(jsonObj) {
         if (jsonObj) {
-            setOnclick.byEle(this, Move.ele_Bk);
+            setOnclick.byEle(this, jsMove.ele_Bk);
 
         };
     },
@@ -420,7 +420,7 @@ let Close = {
         let leftFormEle = document.getElementById('leftForm'); 
         if (leftFormEle.bChanged) {
             globalNoClick = false;
-            await Move.ele_Bk.call(leftFormEle.bChanged);
+            await jsMove.ele_Bk.call(leftFormEle.bChanged);
         };
         OrderEles.init([leftFormEle]);
         await OrderEles.move_out();
