@@ -24,7 +24,6 @@
     color: rgb(163, 155, 142);
     left: -21vw;
     top: 17vh;
-    transition: transform 256ms ease-out;
     z-index: 56;
 }
 #leftFormHidden {
@@ -41,6 +40,15 @@
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(to right, rgba(57, 59, 56, 1), rgba(35, 27, 25, 0.6) 50%, rgba(57, 59, 56, 1) 100%);
-    transition: transform 256ms ease-in;
     z-index: 57;
+}
+#mainForm {
+    display: none;
+    margin: 0;
+    position: fixed;
+    background-color: rgba(57, 59, 56, 0.5);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
 }

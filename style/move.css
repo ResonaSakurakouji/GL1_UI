@@ -16,3 +16,9 @@
 .eio384 {
     transition: transform 384ms ease-in-out;
 }
+.eo256 {
+    transition: transform 256ms ease-out;
+}
+.ei256 {
+    transition: transform 256ms ease-in;
+}
