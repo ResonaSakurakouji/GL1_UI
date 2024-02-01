@@ -1,5 +1,6 @@
 # 开始创建 React 应用程序
 
+`npx create-react-app gl1ui_rts --template typescript`
 这个项目是由 [Create React App](https://github.com/facebook/create-react-app) 创建的。
 
 ## 可用的命令
