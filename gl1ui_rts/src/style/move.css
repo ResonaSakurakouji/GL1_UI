@@ -1,0 +1,24 @@
+.out_left, .out_right, .out_up, .up_down {
+    margin: 0px;
+}
+.m1st, .m2nd, .m3rd, .m4th, .m5th, .m6th, .m7th, .m8th {
+    margin: 0px;
+}
+.eio128 {
+    transition: transform 128ms ease-in-out;
+}
+.eio192 {
+    transition: transform 192ms ease-in-out;
+}
+.eio256 {
+    transition: transform 256ms ease-in-out;
+}
+.eio384 {
+    transition: transform 384ms ease-in-out;
+}
+.eo256 {
+    transition: transform 256ms ease-out;
+}
+.ei256 {
+    transition: transform 256ms ease-in;
+}

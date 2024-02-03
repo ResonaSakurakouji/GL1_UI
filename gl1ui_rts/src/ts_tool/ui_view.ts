@@ -5,6 +5,7 @@ interface HTMLElementP extends HTMLElement {
     bChanged? : any;
     inherentMovingDisance? : number;
     OriginalTransition? : any;
+    getBoundingClientRect(): DOMRect;
 };
 var globalNoClick: boolean = false;
 type docElements = HTMLElementP[] | HTMLCollectionOf<HTMLElementP> | HTMLElement[] | HTMLCollectionOf<Element>; 
@@ -50,10 +51,10 @@ namespace GL1Box {
         LinerMoveBk(): Promise<void>;
     };
     export class TippiBox implements iLinerMove{
-        eles: Map<string, HTMLElementP[]>; 
-        sleepS: number;
-        sleepMs_i: number;
-        sleepCount: number;
+        eles: Map<string, HTMLElementP[]> = new Map(); 
+        sleepS: number = 0;
+        sleepMs_i: number = 0;
+        sleepCount: number = 0;
         clear(): void {
             this.eles = new Map<string, HTMLElement[]>(gOrderList.map(key => [key, []]));
             this.sleepS = 0;
@@ -84,7 +85,7 @@ namespace GL1Box {
             let exed = false;
             for (let i of gOrderList) {
                 for (let ele_i of this.eles.get(i) || []) {
-                    ele_i.inherentMovingDisance = vhw_x;
+                    ele_i.inherentMovingDisance = -vhw_x;
                     if (ele_i.classList.contains('out_left')) {
                         exed = true;
                         ele_i.tslXv = vhw_x;
@@ -111,7 +112,7 @@ namespace GL1Box {
             await Time.sleep(this.sleepS * 1024);
         };
         async LinerMoveBk(): Promise<void> {
-            this.LinerMoveTo(0);
+            await this.LinerMoveTo(0);
             return;
         };
     };
@@ -180,119 +181,6 @@ namespace OnClick {
             eles[i].addEventListener('click', newClickHandler);
             eles[i].clickHandlerThis = newClickHandler;
         };
-    };
-};
-namespace MoveBox {
-    export const LT = async function(): Promise<void> {
-        if (globalNoClick === true) { return; }
-        globalNoClick = true;
-        let prtEle = this.parentElement as HTMLElement;
-        let prtEleId = prtEle.id;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
-        // 获取当前元素的位置
-        let rect = this.getBoundingClientRect();
-        let currentTslXv = 0;
-        let currentTslYv = 0;
-        if (this.tslXv !== undefined) {currentTslXv = Convert.vw2px(this.tslXv)};
-        if (this.tslYv !== undefined) {currentTslYv = Convert.vh2px(this.tslYv)};
-        // 获取当前元素的 transform 值
-        let currentX = rect.left + window.scrollX - currentTslXv;
-        let currentY = rect.top + window.scrollY - currentTslYv;
-        // 计算需要移动的距离
-        let translateX = -parseFloat(Convert.px2vw(currentX).toFixed(2));
-        let translateY = -parseFloat(Convert.px2vh(currentY).toFixed(2));
-        // 将元素移动到左上角
-        this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
-        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.Bk);
-        await tippiBox.LinerMoveBk();
-        await ChangeBox.btnB2gray(this, 128);
-        ChangeBox.topBarGrow(256);
-        CallBox.leftForm();
-        await ChangeBox.shadowDisappear(prtEleId, 256);
-        globalNoClick = false;
-    };
-    export const Bk = async function(): Promise<void> {
-        if (globalNoClick === true) { return; }
-        globalNoClick = true;
-        let prtEle = this.parentElement as HTMLElementP;
-        let prtEleId = prtEle.id;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
-        let currentTslXv = 0;
-        let currentTslYv = 0;
-        if (this.tslXv !== undefined) {currentTslXv = this.tslXv};
-        if (this.tslYv !== undefined) {currentTslYv = this.tslYv};
-        ChangeBox.shadowAppear(prtEleId, 256);
-        const promise1 = new Promise(resolve => {
-            ChangeBox.shadowAppear(prtEleId, 256).then(resolve);
-        });
-        const promise2 = new Promise(resolve => {
-            CloseBox.leftForm().then(resolve);
-        });
-        const promise3 = new Promise(resolve => {
-            ChangeBox.topBarShorten(256).then(resolve);
-        });
-        await Promise.all([promise1, promise2, promise3]);
-        ChangeBox.btnB2original(this, 128);
-        this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
-        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.LT);
-        await tippiBox.LinerMoveTo(100);
-        globalNoClick = false;
-    };
-    export const ele_LT = async function(eleForm: HTMLElementP): Promise<void> {
-        // 没有实现下面这行的distance的初始化
-        const distance: number = eleForm.inherentMovingDisance as number; // -18
-        if (globalNoClick === true) { return; }
-        globalNoClick = true;
-        let prtEle = this.parentElement as HTMLElementP;
-        prtEle.bChanged = this;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
-        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
-        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
-        // 获取当前元素的位置
-        let rect = this.getBoundingClientRect();
-        let eleRect = eleForm.getBoundingClientRect();
-        let currentTslXv = 0;
-        let currentTslYv = 0;
-        if (this.tslXv !== undefined) {currentTslXv = Convert.vw2px(this.tslXv)};
-        if (this.tslYv !== undefined) {currentTslYv = Convert.vh2px(this.tslYv)};
-        // 获取当前元素的 transform 值
-        let currentX = rect.left + window.scrollX - currentTslXv - eleRect.left;
-        let currentY = rect.top + window.scrollY - currentTslYv - eleRect.top;
-        // 计算需要移动的距离
-        let translateX = -parseFloat(Convert.px2vw(currentX).toFixed(2));
-        let translateY = -parseFloat(Convert.px2vh(currentY).toFixed(2));
-        // 将元素移动到左上角
-        this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
-        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.ele_Bk, prtEle);
-        await tippiBox.LinerMoveTo(distance);
-        await ChangeBox.btn2B2gray(this, 128);
-
-        globalNoClick = false;
-    };
-    export const ele_Bk = async function(): Promise<void> {
-        if (globalNoClick === true) { return; }
-        globalNoClick = true;
-        let prtEle = this.parentElement as HTMLElementP;
-        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
-        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
-        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
-        let currentTslXv = 0;
-        let currentTslYv = 0;
-        if (this.tslXv !== undefined) {currentTslXv += this.tslXv};
-        if (this.tslYv !== undefined) {currentTslYv += this.tslYv};
-        await ChangeBox.btn2B2original(this, 128);
-        this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
-        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.ele_LT, [prtEle, prtEle.inherentMovingDisance]);
-        await tippiBox.LinerMoveBk();
-        prtEle.bChanged = false;
-        globalNoClick = false;
-    };
-    export const doNothing = function(): void {
-        return;
     };
 };
 namespace ChangeBox {
@@ -368,17 +256,128 @@ namespace ChangeBox {
         ele.style.transition = ele.OriginalTransition;
     };
 };
+namespace MoveBox {
+    export const LT = async function(this: HTMLElementP): Promise<void> {
+        if (globalNoClick === true) { return; }
+        globalNoClick = true;
+        let prtEle = this.parentElement as HTMLElementP;
+        let prtEleId = prtEle.id;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
+        // 获取当前元素的位置
+        let rect = this.getBoundingClientRect();
+        let currentTslXv = 0;
+        let currentTslYv = 0;
+        if (this.tslXv !== undefined) {currentTslXv = Convert.vw2px(this.tslXv)};
+        if (this.tslYv !== undefined) {currentTslYv = Convert.vh2px(this.tslYv)};
+        // 获取当前元素的 transform 值
+        let currentX = rect.left + window.scrollX - currentTslXv;
+        let currentY = rect.top + window.scrollY - currentTslYv;
+        // 计算需要移动的距离
+        let translateX = -parseFloat(Convert.px2vw(currentX).toFixed(2));
+        let translateY = -parseFloat(Convert.px2vh(currentY).toFixed(2));
+        // 将元素移动到左上角
+        this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
+        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
+        OnClick.setByEle(this, MoveBox.Bk);
+        await tippiBox.LinerMoveBk();
+        await ChangeBox.btnB2gray(this, 128);
+        ChangeBox.topBarGrow(256);
+        CallBox.leftForm.call(this);
+        await ChangeBox.shadowDisappear(prtEleId, 256);
+        globalNoClick = false;
+    };
+    export const Bk = async function(this: HTMLElementP): Promise<void> {
+        if (globalNoClick === true) { return; }
+        globalNoClick = true;
+        let prtEle = this.parentElement as HTMLElementP;
+        let prtEleId = prtEle.id;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
+        let currentTslXv = 0;
+        let currentTslYv = 0;
+        if (this.tslXv !== undefined) {currentTslXv = this.tslXv};
+        if (this.tslYv !== undefined) {currentTslYv = this.tslYv};
+        ChangeBox.shadowAppear(prtEleId, 256);
+        const promise1 = new Promise(resolve => {
+            ChangeBox.shadowAppear(prtEleId, 256).then(resolve);
+        });
+        const promise2 = new Promise(resolve => {
+            CloseBox.leftForm.call(this).then(resolve);
+        });
+        const promise3 = new Promise(resolve => {
+            ChangeBox.topBarShorten(256).then(resolve);
+        });
+        await Promise.all([promise1, promise2, promise3]);
+        ChangeBox.btnB2original(this, 128);
+        this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
+        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
+        OnClick.setByEle(this, MoveBox.LT);
+        await tippiBox.LinerMoveTo(100);
+        globalNoClick = false;
+    };
+    export const ele_LT = async function(this: HTMLElementP, eleForm: HTMLElementP): Promise<void> {
+        const distance: number = eleForm.inherentMovingDisance as number; // -18
+        if (globalNoClick === true) { return; }
+        globalNoClick = true;
+        let prtEle = this.parentElement as HTMLElementP;
+        prtEle.bChanged = this;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
+        // 获取当前元素的位置
+        let rect = this.getBoundingClientRect();
+        let eleRect = eleForm.getBoundingClientRect();
+        let currentTslXv = 0;
+        let currentTslYv = 0;
+        if (this.tslXv !== undefined) {currentTslXv = Convert.vw2px(this.tslXv)};
+        if (this.tslYv !== undefined) {currentTslYv = Convert.vh2px(this.tslYv)};
+        // 获取当前元素的 transform 值
+        let currentX = rect.left + window.scrollX - currentTslXv - eleRect.left;
+        let currentY = rect.top + window.scrollY - currentTslYv - eleRect.top;
+        // 计算需要移动的距离
+        let translateX = -parseFloat(Convert.px2vw(currentX).toFixed(2));
+        let translateY = -parseFloat(Convert.px2vh(currentY).toFixed(2));
+        // 将元素移动到左上角
+        this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
+        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
+        OnClick.setByEle(this, MoveBox.ele_Bk, prtEle);
+        await tippiBox.LinerMoveTo(distance);
+        await ChangeBox.btn2B2gray(this, 128);
+        globalNoClick = false;
+    };
+    export const ele_Bk = async function(this: HTMLElementP): Promise<void> {
+        if (globalNoClick === true) { return; }
+        globalNoClick = true;
+        let prtEle = this.parentElement as HTMLElementP;
+        let bClickedEleBros = Array.from(prtEle.children).filter(child => child !== this) as docElementPs;
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*Hidden\w*/));
+        bClickedEleBros = Array.from(bClickedEleBros).filter(child => !child.id.match(/\w*_LT_\w*/));
+        let currentTslXv = 0;
+        let currentTslYv = 0;
+        if (this.tslXv !== undefined) {currentTslXv += this.tslXv};
+        if (this.tslYv !== undefined) {currentTslYv += this.tslYv};
+        await ChangeBox.btn2B2original(this, 128);
+        this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
+        let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
+        OnClick.setByEle(this, MoveBox.ele_LT, prtEle);
+        await tippiBox.LinerMoveBk();
+        prtEle.bChanged = false;
+        globalNoClick = false;
+    };
+    export const doNothing = function(this: HTMLElementP): void {
+        return;
+    };
+};
 namespace CallBox {
-    export async function battleMenu(): Promise<void> {
+    export async function battleMenu(this: HTMLElementP): Promise<void> {
         const battleMenuEles = document.getElementById('battleMenu')!.children as docElementPs;
         let tippiBox = new GL1Box.TippiBox(battleMenuEles);
-        await tippiBox.LinerMoveTo(100);
+        tippiBox.LinerMoveTo(100);
         OnClick.setByEles(battleMenuEles, MoveBox.LT);
-        OnClick.setByEle(this as HTMLElement, MoveBox.doNothing);
+        OnClick.setByEle(this as HTMLElementP, MoveBox.doNothing);
         await ChangeBox.shadowAppear("battleMenu", 256);
         return;
     };
-    export async function leftForm(jsonObj?: any): Promise<void> {
+    export async function leftForm(this: HTMLElementP, jsonObj?: any): Promise<void> {
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
         const leftFormEleHidden = document.getElementById('leftFormHidden') as HTMLElementP;
         let leftFormEleChildren = Array.from(leftFormEle.children).filter(child => child !== leftFormEleHidden) as docElementPs;
@@ -391,7 +390,7 @@ namespace CallBox {
         await tippiBox.LinerMoveTo(21);
         return;
     };
-    export async function leftFormSon(jsonObj: any): Promise<void> {
+    export async function leftFormSon(this: HTMLElementP, jsonObj: any): Promise<void> {
         if (jsonObj) {
             OnClick.setByEle(this as HTMLElement, MoveBox.ele_Bk);
         };
@@ -399,7 +398,7 @@ namespace CallBox {
     };
 };
 namespace CloseBox {
-    export async function leftForm(jsonObj?: any): Promise<void> {
+    export async function leftForm(this: HTMLElementP, jsonObj?: any): Promise<void> {
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
         if (leftFormEle.bChanged) {
             globalNoClick = false;
@@ -409,7 +408,7 @@ namespace CloseBox {
         await tippiBox.LinerMoveBk();
         return;
     };
-    export async function leftFormSon(jsonObj?: any): Promise<void> {
+    export async function leftFormSon(this: HTMLElementP, jsonObj?: any): Promise<void> {
         let leftFormEles = document.getElementById('leftForm')!.children as docElementPs;
         leftFormEles = Array.from(leftFormEles).filter(ele => ele.id !== 'leftFormHidden');
         leftFormEles = Array.from(leftFormEles).filter(ele => ele.id !== 'btn2_LT_b');
@@ -419,7 +418,7 @@ namespace CloseBox {
     };
 };
 namespace HiddenBox {
-    export async function leftForm(): Promise<void> {
+    export async function leftForm(this: HTMLElementP): Promise<void> {
         if (globalNoClick === true) {return;}
         globalNoClick = true;
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
@@ -432,7 +431,7 @@ namespace HiddenBox {
     };
 };
 namespace ShowBox {
-    export async function leftForm(): Promise<void> {
+    export async function leftForm(this: HTMLElementP): Promise<void> {
         if (globalNoClick === true) {return;}
         globalNoClick = true;
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
@@ -444,7 +443,5 @@ namespace ShowBox {
         return;
     };
 };
-
-window.onload = function() {
-    OnClick.setById('body', CallBox.battleMenu);
-};
+export type {HTMLElementP};
+export {Time, Convert, GL1Box, OnClick, ChangeBox, MoveBox, CallBox, HiddenBox, ShowBox};

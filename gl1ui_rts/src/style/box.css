@@ -1,0 +1,54 @@
+.box_text {
+    background-color: #000000bf;
+}
+#battleMenu {
+    margin: 0;
+    z-index: 61;
+}
+#battleMenuS {
+    margin: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0;
+    z-index: 60;
+}
+#leftForm {
+    margin: 0;
+    position: fixed;
+    height: 63vh;
+    width: 21vw;
+    background-image: linear-gradient(to top, rgba(35, 27, 25, 0.6), rgba(57, 59, 56, 1));
+    color: rgb(163, 155, 142);
+    left: -21vw;
+    top: 17vh;
+    z-index: 56;
+}
+#leftFormHidden {
+    display: none; 
+    margin: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 3vw;
+    font-size: 3vw;
+    height: 100%;
+    line-height: 1;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, rgba(57, 59, 56, 1), rgba(35, 27, 25, 0.6) 50%, rgba(57, 59, 56, 1) 100%);
+    z-index: 57;
+}
+#mainForm {
+    display: none;
+    margin: 0;
+    position: fixed;
+    background-color: rgba(57, 59, 56, 0.5);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
