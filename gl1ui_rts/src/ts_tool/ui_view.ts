@@ -1,27 +1,6 @@
-interface HTMLElementP extends HTMLElement {
-    clickHandlerThis?: any;
-    tslXv? : any;
-    tslYv? : any;
-    bChanged? : any;
-    inherentMovingDisance? : number;
-    OriginalTransition? : any;
-    getBoundingClientRect(): DOMRect;
-};
+import {Time, HTMLElementP, docElementPs, docElements} from './public_mod';
+
 var globalNoClick: boolean = false;
-type docElements = HTMLElementP[] | HTMLCollectionOf<HTMLElementP> | HTMLElement[] | HTMLCollectionOf<Element>; 
-type docElementPs = HTMLElementP[] | HTMLCollectionOf<HTMLElementP> ;
-namespace Time {
-    export function sleep(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    };
-    export function awaitAll(funcList: (() => Promise<any>)[]): Promise<void> {
-        return Promise.all(funcList.map(func => func()))
-            .then(() => {}).catch(error => {
-            console.error('《awaitAll捕获的异常《', error);
-            throw error;
-        });
-    };
-};
 namespace Convert {
     export const vw2px = (vwValue: number): number => {
         const vwWidth = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
@@ -117,40 +96,40 @@ namespace GL1Box {
         };
     };
 };
-namespace OnClick {
+namespace OnClick_UI {
     export function setByEle(ele: HTMLElementP, func: (param: any) => void, param?: any): void {
-        if (ele.clickHandlerThis !== undefined) {
-            ele.removeEventListener('click', ele.clickHandlerThis);
+        if (ele.clickHandlerThis_UI !== undefined) {
+            ele.removeEventListener('click', ele.clickHandlerThis_UI);
         };
         const newClickHandler = function () {
             func.bind(ele)(param);
         };
         ele.addEventListener('click', newClickHandler);
-        ele.clickHandlerThis = newClickHandler;
+        ele.clickHandlerThis_UI = newClickHandler;
     };
     export function setByEles(eles: docElementPs, func: (param: any) => void, param?: any): void {
         for (let i = 0; i < eles.length; i++) {
-            if (eles[i].clickHandlerThis !== undefined) {
-                eles[i].removeEventListener('click', eles[i].clickHandlerThis);
+            if (eles[i].clickHandlerThis_UI !== undefined) {
+                eles[i].removeEventListener('click', eles[i].clickHandlerThis_UI);
             };
             const newClickHandler = function () {
                 func.bind(eles[i])(param);
             };
             eles[i].addEventListener('click', newClickHandler);
-            eles[i].clickHandlerThis = newClickHandler;
+            eles[i].clickHandlerThis_UI = newClickHandler;
         };
     };
     export function setById(idName: string, func: (param: any) => void, param?: any): void {
         const ele = document.getElementById(idName) as HTMLElementP;
-        if (ele !== null && ele.clickHandlerThis !== undefined) {
-            ele.removeEventListener('click', ele.clickHandlerThis);
+        if (ele !== null && ele.clickHandlerThis_UI !== undefined) {
+            ele.removeEventListener('click', ele.clickHandlerThis_UI);
         };
         const newClickHandler = function () {
             func.bind(ele)(param);
         };
         if (ele !== null) {
             ele.addEventListener('click', newClickHandler);
-            ele.clickHandlerThis = newClickHandler;
+            ele.clickHandlerThis_UI = newClickHandler;
         };
     };
     export function setByParentId(idName: string, func: (param: any) => void, param?: any): void {
@@ -158,28 +137,28 @@ namespace OnClick {
         if (parent !== null) {
             const eles = parent.children as HTMLCollectionOf<HTMLElementP>;
             for (let i = 0; i < eles.length; i++) {
-                if (eles[i].clickHandlerThis !== undefined) {
-                    eles[i].removeEventListener('click', eles[i].clickHandlerThis);
+                if (eles[i].clickHandlerThis_UI !== undefined) {
+                    eles[i].removeEventListener('click', eles[i].clickHandlerThis_UI);
                 };
                 const newClickHandler = function () {
                     func.bind(eles[i])(param);
                 };
                 eles[i].addEventListener('click', newClickHandler);
-                eles[i].clickHandlerThis = newClickHandler;
+                eles[i].clickHandlerThis_UI = newClickHandler;
             };
         };
     };
     export function setByClass(className: string, func: (param: any) => void, param?: any): void {
         const eles = document.getElementsByClassName(className) as HTMLCollectionOf<HTMLElementP>;
         for (let i = 0; i < eles.length; i++) {
-            if (eles[i].clickHandlerThis !== undefined) {
-                eles[i].removeEventListener('click', eles[i].clickHandlerThis);
+            if (eles[i].clickHandlerThis_UI !== undefined) {
+                eles[i].removeEventListener('click', eles[i].clickHandlerThis_UI);
             };
             const newClickHandler = function () {
                 func.bind(eles[i])(param);
             };
             eles[i].addEventListener('click', newClickHandler);
-            eles[i].clickHandlerThis = newClickHandler;
+            eles[i].clickHandlerThis_UI = newClickHandler;
         };
     };
 };
@@ -278,7 +257,7 @@ namespace MoveBox {
         // 将元素移动到左上角
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
         let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.Bk);
+        OnClick_UI.setByEle(this, MoveBox.Bk);
         await tippiBox.LinerMoveBk();
         await ChangeBox.btnB2gray(this, 128);
         ChangeBox.topBarGrow(256);
@@ -310,7 +289,7 @@ namespace MoveBox {
         ChangeBox.btnB2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
         let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.LT);
+        OnClick_UI.setByEle(this, MoveBox.LT);
         await tippiBox.LinerMoveTo(100);
         globalNoClick = false;
     };
@@ -339,7 +318,7 @@ namespace MoveBox {
         // 将元素移动到左上角
         this.style.transform = `translate(${translateX}vw, ${translateY}vh)`;
         let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.ele_Bk, prtEle);
+        OnClick_UI.setByEle(this, MoveBox.ele_Bk, prtEle);
         await tippiBox.LinerMoveTo(distance);
         await ChangeBox.btn2B2gray(this, 128);
         globalNoClick = false;
@@ -358,7 +337,7 @@ namespace MoveBox {
         await ChangeBox.btn2B2original(this, 128);
         this.style.transform = `translate(${currentTslXv}vw, ${currentTslYv}vh)`;
         let tippiBox = new GL1Box.TippiBox(bClickedEleBros);
-        OnClick.setByEle(this, MoveBox.ele_LT, prtEle);
+        OnClick_UI.setByEle(this, MoveBox.ele_LT, prtEle);
         await tippiBox.LinerMoveBk();
         prtEle.bChanged = false;
         globalNoClick = false;
@@ -372,8 +351,8 @@ namespace CallBox {
         const battleMenuEles = document.getElementById('battleMenu')!.children as docElementPs;
         let tippiBox = new GL1Box.TippiBox(battleMenuEles);
         tippiBox.LinerMoveTo(100);
-        OnClick.setByEles(battleMenuEles, MoveBox.LT);
-        OnClick.setByEle(this as HTMLElementP, MoveBox.doNothing);
+        OnClick_UI.setByEles(battleMenuEles, MoveBox.LT);
+        OnClick_UI.setByEle(this as HTMLElementP, MoveBox.doNothing);
         await ChangeBox.shadowAppear("battleMenu", 256);
         return;
     };
@@ -385,14 +364,14 @@ namespace CallBox {
         let tippiBox = new GL1Box.TippiBox([leftFormEle]);
         leftFormEleHidden.style.display = 'flex';
         leftFormEleHidden.style.opacity = '1';
-        OnClick.setByEle(leftFormEleHidden, HiddenBox.leftForm, true);
-        OnClick.setByEles(leftFormEleChildren, MoveBox.ele_LT, leftFormEle);
+        OnClick_UI.setByEle(leftFormEleHidden, HiddenBox.leftForm, true);
+        OnClick_UI.setByEles(leftFormEleChildren, MoveBox.ele_LT, leftFormEle);
         await tippiBox.LinerMoveTo(21);
         return;
     };
     export async function leftFormSon(this: HTMLElementP, jsonObj: any): Promise<void> {
         if (jsonObj) {
-            OnClick.setByEle(this as HTMLElement, MoveBox.ele_Bk);
+            OnClick_UI.setByEle(this as HTMLElement, MoveBox.ele_Bk);
         };
         return;
     };
@@ -424,7 +403,7 @@ namespace HiddenBox {
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
         let tippiBox = new GL1Box.TippiBox([leftFormEle]);
         this.style.opacity = "0.2";
-        OnClick.setByEle(this as HTMLElement, ShowBox.leftForm);
+        OnClick_UI.setByEle(this as HTMLElement, ShowBox.leftForm);
         await tippiBox.LinerMoveTo(3);
         globalNoClick = false;
         return;
@@ -437,11 +416,11 @@ namespace ShowBox {
         const leftFormEle = document.getElementById('leftForm') as HTMLElementP;
         let tippiBox = new GL1Box.TippiBox([leftFormEle]);
         this.style.opacity = "1";
-        OnClick.setByEle(this as HTMLElement, HiddenBox.leftForm);
+        OnClick_UI.setByEle(this as HTMLElement, HiddenBox.leftForm);
         await tippiBox.LinerMoveTo(21);
         globalNoClick = false;
         return;
     };
 };
-export type {HTMLElementP};
-export {Time, Convert, GL1Box, OnClick, ChangeBox, MoveBox, CallBox, HiddenBox, ShowBox};
+
+export {Time, Convert, GL1Box, OnClick_UI, ChangeBox, MoveBox, CallBox, HiddenBox, ShowBox};
