@@ -74,14 +74,14 @@ namespace OnClick_Ajax {
 
 
 
-namespace battleMenu {
+namespace battleMenu_Ajax {
     export async function initLeftForm(this: HTMLElementP): Promise<void> { // 形参是 被点击的battleMenu
         const this_id: string = this.id;
         const parent_id: string = this.parentElement!.id;
         const apiUrl = root_url + parent_id; 
         try {
             const postData = {clickedDivId: this_id};
-
+            console.log(apiUrl);
             // 发送 AJAX 请求...
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -119,4 +119,4 @@ namespace battleMenu {
     };
 };
 
-export {OnClick_Ajax, battleMenu};
+export {OnClick_Ajax, battleMenu_Ajax};

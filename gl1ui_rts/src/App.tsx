@@ -7,13 +7,12 @@ import './style/button.css';
 import './style/move.css';
 
 import {HTMLElementP, docElements, docElementPs} from './ts_tool/public_mod';
-import {OnClick_Ajax, battleMenu} from './ts_tool/data_ajax';
+import {OnClick_Ajax, battleMenu_Ajax} from './ts_tool/data_ajax';
 import {Convert, GL1Box, OnClick_UI, ChangeBox, MoveBox, CallBox, HiddenBox, ShowBox} from './ts_tool/ui_view';
 
 function App() {
   useEffect(() => {
     OnClick_UI.setByEle(document.body, CallBox.battleMenu);
-    OnClick_Ajax.setByEle(document.body, battleMenu.initLeftForm);
   }, []); // 空数组表示仅在组件挂载和卸载时运行
 
   return (

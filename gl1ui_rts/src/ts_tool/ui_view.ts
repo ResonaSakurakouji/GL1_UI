@@ -1,4 +1,5 @@
 import {Time, HTMLElementP, docElementPs, docElements} from './public_mod';
+import { OnClick_Ajax, battleMenu_Ajax } from './data_ajax';
 
 var globalNoClick: boolean = false;
 namespace Convert {
@@ -352,6 +353,7 @@ namespace CallBox {
         let tippiBox = new GL1Box.TippiBox(battleMenuEles);
         tippiBox.LinerMoveTo(100);
         OnClick_UI.setByEles(battleMenuEles, MoveBox.LT);
+        OnClick_Ajax.setByEles(battleMenuEles, battleMenu_Ajax.initLeftForm);
         OnClick_UI.setByEle(this as HTMLElementP, MoveBox.doNothing);
         await ChangeBox.shadowAppear("battleMenu", 256);
         return;
