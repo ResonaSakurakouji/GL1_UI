@@ -82,6 +82,7 @@ namespace battleMenu_Ajax {
         try {
             const postData = {clickedDivId: this_id};
             console.log(apiUrl);
+            console.log('Sending request body:', JSON.stringify(postData));
             // 发送 AJAX 请求...
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -104,14 +105,11 @@ namespace battleMenu_Ajax {
                     // 这里可以根据需要更新其他属性
                 };
             };
-            updateElement('lF1', responseData.lF1_t, responseData.lF1_r);
-            updateElement('lF2', responseData.lF2_t, responseData.lF2_r);
-            updateElement('lF3', responseData.lF3_t, responseData.lF3_r);
-            updateElement('lF4', responseData.lF4_t, responseData.lF4_r);
-            updateElement('lF5', responseData.lF5_t, responseData.lF5_r);
-            updateElement('lF6', responseData.lF6_t, responseData.lF6_r);
-            updateElement('lF7', responseData.lF7_t, responseData.lF7_r);
-            updateElement('lF8', responseData.lF8_t, responseData.lF8_r);
+            responseData.forEach((item: { self_id: string; name: string; }) => {
+                const { self_id, name } = item;
+                const newRequest = "";
+                updateElement(self_id, name, newRequest);
+            });
         } catch (error) {
             console.error('获取数据出错了：', error);
         };
