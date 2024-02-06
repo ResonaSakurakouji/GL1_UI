@@ -81,8 +81,6 @@ namespace battleMenu_Ajax {
         const apiUrl = root_url + parent_id; 
         try {
             const postData = {clickedDivId: this_id};
-            console.log(apiUrl);
-            console.log('Sending request body:', JSON.stringify(postData));
             // 发送 AJAX 请求...
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -102,6 +100,12 @@ namespace battleMenu_Ajax {
                 if (element) {
                     element.textContent = text;
                     element.requestStr = newRequest;
+                    if(text) {
+                        element.style.display = 'flex';
+                    } else {
+                        element.style.display = 'none';
+                    }
+
                     // 这里可以根据需要更新其他属性
                 };
             };
