@@ -105,7 +105,6 @@ namespace battleMenu_Ajax {
                     } else {
                         element.style.display = 'none';
                     }
-
                     // 这里可以根据需要更新其他属性
                 };
             };
