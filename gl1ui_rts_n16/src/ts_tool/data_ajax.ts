@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Time, HTMLElementP, docElements, docElementPs} from './public_mod'
 import {Convert, GL1Box, ChangeBox, MoveBox, CallBox, HiddenBox, ShowBox} from './ui_view';
 
-export const root_url = 'http://127.0.0.1:2010/'; // test
+// export const root_url = 'http://127.0.0.1:2010/'; // test
 // export const root_url = 'http://127.0.0.1:1223/'; // product
+export const root_url = 'http://101.132.112.146:1223/'; // product
 
 namespace OnClick_Ajax {
     export function setByEle(ele: HTMLElementP, func: (param: any) => void, param?: any): void {
@@ -73,7 +74,6 @@ namespace OnClick_Ajax {
 };
 
 
-
 namespace battleMenu_Ajax {
     export async function initLeftForm(this: HTMLElementP): Promise<void> { // 形参是 被点击的battleMenu
         const this_id: string = this.id;
@@ -82,14 +82,15 @@ namespace battleMenu_Ajax {
         try {
             const postData = {clickedDivId: this_id};
             // 发送 AJAX 请求...
-            const response = await fetch(apiUrl, {
+            let fetchObj = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // 指定请求头为 JSON 类型
                     // 可以添加其他的请求头参数，如认证信息等
                 },
                 body: JSON.stringify(postData), // 将数据转为 JSON 字符串并作为请求体发送
-            });
+            }
+            const response = await fetch(apiUrl, fetchObj);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             };

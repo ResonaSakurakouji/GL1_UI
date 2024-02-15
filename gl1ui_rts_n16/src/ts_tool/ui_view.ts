@@ -19,7 +19,7 @@ namespace Convert {
         return vwValue;
     };
     export const px2vh = (pxValue: number): number => {
-        const vhHeight = document.body.clientHeight || document.documentElement.clientHeight || window.innerHeight;
+        const vhHeight = document.body.clientHeight || window.innerHeight || document.documentElement.clientHeight;
         const vhValue = (pxValue / vhHeight) * 100;
         return vhValue;
     };
@@ -386,7 +386,9 @@ namespace CloseBox {
             await MoveBox.ele_Bk.call(leftFormEle.bChanged);
         };
         let tippiBox = new GL1Box.TippiBox([leftFormEle]);
+        globalNoClick = true;
         await tippiBox.LinerMoveBk();
+        globalNoClick = false;
         return;
     };
     export async function leftFormSon(this: HTMLElementP, jsonObj?: any): Promise<void> {
