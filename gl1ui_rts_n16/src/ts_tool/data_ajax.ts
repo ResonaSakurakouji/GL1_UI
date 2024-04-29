@@ -73,6 +73,47 @@ namespace OnClick_Ajax {
     };
 };
 
+namespace HomePage_Ajax {
+    export async function initBallteMenu(): Promise<void> { // 不需要this，在网页加载完成时触发
+        const apiUrl = root_url + 'CMD_SQL';
+        try {
+            const postData = {CMD : 'initBattleMenu'};
+            // 发送 AJAX 请求...
+            let fetchObj = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // 指定请求头为 JSON 类型
+                    // 可以添加其他的请求头参数，如认证信息等
+                },
+                body: JSON.stringify(postData), // 将数据转为 JSON 字符串并作为请求体发送
+            };
+            const response = await fetch(apiUrl, fetchObj);
+            if(!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            };
+            const responseData = await response.json();
+            // 更新主菜单的内容
+            const updateElement = (elementId: string, text: string) => {
+                const element = document.getElementById(elementId) as HTMLElementP;
+                console.log(`修改ID[${elementId}]，修正后文本为[${text}]`);
+                if (element) {
+                    element.textContent = text;
+                    if(text) {
+                        element.style.display = 'flex';
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+            };
+            responseData.forEach((item: { id: string; name: string; }) =>{
+                const { id, name } = item;
+                updateElement(id, name);
+            });
+        } catch (error) {
+            console.error('获取数据出错了：', error);
+        };
+    };
+}
 
 namespace battleMenu_Ajax {
     export async function initLeftForm(this: HTMLElementP): Promise<void> { // 形参是 被点击的battleMenu
@@ -89,7 +130,7 @@ namespace battleMenu_Ajax {
                     // 可以添加其他的请求头参数，如认证信息等
                 },
                 body: JSON.stringify(postData), // 将数据转为 JSON 字符串并作为请求体发送
-            }
+            };
             const response = await fetch(apiUrl, fetchObj);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -121,4 +162,4 @@ namespace battleMenu_Ajax {
     };
 };
 
-export {OnClick_Ajax, battleMenu_Ajax};
+export {OnClick_Ajax, battleMenu_Ajax, HomePage_Ajax};

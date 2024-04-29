@@ -1,4 +1,4 @@
-.out_left, .out_right, .out_up, .up_down {
+.out_left, .out_right, .out_up, .out_down {
     margin: 0px;
 }
 .m1st, .m2nd, .m3rd, .m4th, .m5th, .m6th, .m7th, .m8th {
@@ -6,6 +6,12 @@
 }
 .eio128 {
     transition: transform 128ms ease-in-out;
+}
+.eo128 {
+    transition: transform 128ms ease-out;
+}
+.ei128 {
+    transition: transform 128ms ease-in;
 }
 .eio192 {
     transition: transform 192ms ease-in-out;

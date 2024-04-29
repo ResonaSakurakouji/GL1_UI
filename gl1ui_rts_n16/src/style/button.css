@@ -24,6 +24,19 @@
     outline: none;
     z-index: 57;
 }
+.btn3 {
+    display: flex;
+    background-image: linear-gradient(to bottom, rgba(138, 94, 53, 1), rgba(198, 148, 106, 1)40%, rgba(198, 148, 106, 1)60%, rgba(138, 94, 53, 1)100%); /* 上下线性渐变 */
+    border: none;
+    color: #000000ff;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    z-index: 57;
+}
 .btn span {
     line-height: 1; /* 使文字垂直居中 */
 }
